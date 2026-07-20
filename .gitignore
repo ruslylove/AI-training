@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model weights / checkpoints
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pb
+*.tflite
+*.safetensors
+
+# Datasets (large files - keep raw/processed/splits out of git)
+datasets/raw/*
+datasets/processed/*
+datasets/splits/*
+!datasets/raw/.gitkeep
+!datasets/processed/.gitkeep
+!datasets/splits/.gitkeep
+*.zip
+*.tar
+*.tar.gz
+*.npy
+*.npz
+
+# Model artifacts
+models/checkpoints/*
+models/exports/*
+!models/checkpoints/.gitkeep
+!models/exports/.gitkeep
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Environment
+.env
+
+# Logs
+*.log
+
+# LaTeX build artifacts (keep .tex sources and .pdf outputs)
+*.aux
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Node / Slidev
+node_modules/
+dist/
+.slidev/
+*.local

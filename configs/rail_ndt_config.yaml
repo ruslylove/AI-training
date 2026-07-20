@@ -1,0 +1,29 @@
+# Railway NDT Lab -- edit these values, then re-run the matching script.
+# No coding needed, just change the numbers/words below.
+# See docs/labsheets/rail_ndt_labsheet.md for what each setting means.
+
+# Which kind of model to train. Must be one of: random_forest, logistic_regression
+# Changing this requires re-running rail_train.py to take effect.
+model_type: random_forest
+
+# --- random_forest settings (ignored unless model_type is random_forest) ---
+# How many "trees" vote on whether a pixel is a defect. More trees = steadier
+# but slower. Changing this requires re-running rail_train.py.
+n_estimators: 100
+# How deep each tree is allowed to grow. Changing this requires re-running
+# rail_train.py.
+max_depth: 8
+
+# Controls the random "coin flips" the model makes internally, and which
+# images end up in the train/val/test groups. Changing this requires
+# re-running rail_train.py (it changes which images are even trained on).
+random_seed: 42
+
+# --- threshold: the ONE setting you can change without retraining ---
+# The model gives every pixel a "how likely is this a defect" score from 0 to
+# 1. This threshold decides how confident it must be before marking a pixel
+# as a defect. Lower = flags more pixels (catches more real defects, but also
+# more false alarms). Higher = flags fewer pixels (fewer false alarms, but
+# might miss real defects). Just re-run rail_evaluate.py after changing this
+# -- no need to retrain.
+threshold: 0.5

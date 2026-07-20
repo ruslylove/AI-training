@@ -1,0 +1,226 @@
+\documentclass[11pt]{article}
+\usepackage{labsheet_common}
+
+\title{}
+\date{}
+
+\begin{document}
+\thispagestyle{fancy}
+
+\labtitle{AI Training -- Lab 2}{Detecting Rail Defects with AI}{A hands-on introduction to image segmentation and model tuning}
+\nocodebadge
+
+You will follow copy-paste steps in a terminal and edit one plain-text
+settings file. That's it -- the AI code itself is already written for you.
+
+\section*{What you'll learn}
+\begin{itemize}
+  \item What ``Non-Destructive Testing'' (NDT) means and why AI can help with it
+  \item What it means for AI to ``segment'' an image (draw where something is, pixel by pixel) instead of just labeling the whole photo
+  \item How a single setting -- the \textbf{decision threshold} -- controls the trade-off between catching every defect and avoiding false alarms
+  \item How to read an accuracy score (IoU) and compare it with classmates
+\end{itemize}
+
+\section*{The big picture}
+Railway maintenance crews inspect rail surfaces for defects (cracks,
+spalling, corrosion) that could cause problems if left unnoticed --
+traditionally by a human walking the track and looking. NDT means checking
+for defects without damaging the rail (e.g. just photographing it), which is
+exactly what our dataset does.
+
+\begin{notebox}
+Unlike Lab 1, \textbf{nobody needs to label anything here} -- the dataset
+already comes with 113 real rail photos, each with a hand-drawn ``ground
+truth'' map showing exactly where the defect is (drawn by the researchers
+who published this dataset). Your job is to train an AI that draws its own
+version of that map on a new photo, and to make that AI as accurate as
+possible.
+\end{notebox}
+
+\section*{What's already done for you}
+\begin{itemize}
+  \item The dataset (113 photos + their official defect maps) has already been downloaded into \path|datasets/raw/rail_ndt/rsdds/|.
+  \item All the AI code -- feature extraction, model training, scoring, plotting -- is already written in \texttt{scripts/}. You will only \emph{run} it, never edit it.
+  \item The only file you'll edit is \texttt{configs/rail\_ndt\_config.yaml}, a plain-text settings file (not code).
+\end{itemize}
+
+\section*{How it all fits together}
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=6mm]
+  \node[autobox] (data) {RSDDs photos + ground truth (already downloaded)};
+  \node[actionbox, right=of data] (config) {Edit\\\texttt{rail\_ndt\_\allowbreak config.yaml}};
+  \node[autobox, right=of config] (train) {Train model\\\texttt{rail\_\allowbreak train.py}};
+  \node[autobox, right=of train] (evaluate) {Evaluate model\\\texttt{rail\_\allowbreak evaluate.py}};
+  \node[scorebox, right=of evaluate] (score) {Your score:\\Mean IoU};
+
+  \draw[flowarrow] (data) -- (config);
+  \draw[flowarrow] (config) -- (train);
+  \draw[flowarrow] (train) -- (evaluate);
+  \draw[flowarrow] (evaluate) -- (score);
+
+  \draw[loopB] (score.south) to[out=-55, in=-125, looseness=0.8]
+    node[looplabel, midway, below=1mm] {just change threshold -- no retrain (Part 3)} (evaluate.south);
+  \draw[loopA] (score.north) to[out=55, in=125, looseness=0.9]
+    node[looplabel, midway, above=1mm] {change model settings -- needs retrain (Part 4)} (config.north);
+\end{tikzpicture}%
+}
+\end{center}
+\diagramlegend
+
+Two different loops back into the same pipeline: the dashed blue one under
+the diagram is fast (just re-run evaluate); the solid orange one over the
+top requires starting again from training.
+
+\section*{Part 0: One-time setup}
+Open a terminal (on Mac: the \textbf{Terminal} app; on Windows:
+\textbf{Anaconda Prompt} or \textbf{PowerShell}) and run these commands one
+at a time:
+
+\begin{lstlisting}
+cd AI-training
+python3 -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+\end{lstlisting}
+
+If you already did this for Lab 1 in the same folder, you can skip straight
+to Part 1 (just remember to run the \texttt{source .venv/bin/activate} line
+again in any new terminal window).
+
+\section*{Part 1: Train your model}
+Open \texttt{configs/rail\_ndt\_config.yaml} in any plain-text editor
+(Notepad, TextEdit, VS Code -- anything that isn't Word). You'll see
+settings like:
+
+\begin{lstlisting}
+model_type: random_forest
+n_estimators: 100
+max_depth: 8
+random_seed: 42
+threshold: 0.5
+\end{lstlisting}
+
+For now, leave everything as-is and run:
+
+\begin{lstlisting}
+python3 scripts/rail_train.py
+\end{lstlisting}
+
+This looks at every pixel of the training photos and learns what a ``defect
+pixel'' tends to look like (its brightness, texture, and where in the photo
+it is), compared to normal rail surface. It takes under a minute.
+
+\section*{Part 2: Evaluate your model}
+\begin{lstlisting}
+python3 scripts/rail_evaluate.py
+\end{lstlisting}
+
+This tests your model on photos it never trained on, and prints something
+like:
+
+\begin{lstlisting}
+Mean IoU:  0.25 (higher is better, 1.0 = perfect)
+Mean Dice: 0.38 (higher is better, 1.0 = perfect)
+\end{lstlisting}
+
+\textbf{IoU (Intersection over Union)} measures how much your model's
+guessed defect area overlaps with the real defect area. 1.0 = perfect
+overlap, 0 = no overlap at all. This is your score -- \textbf{higher is
+better}.
+
+It also saves a picture, \texttt{results/figures/rail\_eval.png}, showing
+several test photos side by side: the original photo, the real defect map,
+and your model's guessed defect map. Look at it -- this is the most useful
+way to understand what your model is actually doing.
+
+\section*{Part 3: Tune the threshold (the main lever -- no retraining needed)}
+Your model doesn't just say ``defect'' or ``not defect'' for each pixel --
+it gives a confidence score from 0 to 1. The \texttt{threshold} setting
+decides how confident it must be before marking a pixel as a defect:
+
+\begin{center}
+\begin{tabular}{@{}lp{9.5cm}@{}}
+\toprule
+\textbf{threshold} & \textbf{Effect} \\
+\midrule
+Low (e.g. 0.2)  & Flags more pixels -- catches more real defects, but also more false alarms \\
+High (e.g. 0.8) & Flags fewer pixels -- fewer false alarms, but risks missing real defects \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Open \texttt{configs/rail\_ndt\_config.yaml}, change only the
+\texttt{threshold} value, and re-run \textbf{just} the evaluate step (no
+need to retrain):
+
+\begin{lstlisting}
+python3 scripts/rail_evaluate.py
+\end{lstlisting}
+
+\begin{tipbox}
+Try several values (e.g. 0.3, 0.4, 0.5, 0.6, 0.7, 0.8) and note the Mean IoU
+each time. This is the fastest way to improve your score, and needs no
+retraining -- each check takes only a few seconds.
+\end{tipbox}
+
+\section*{Part 4: (Optional/stretch) Retrain with different settings}
+If you want to go further, edit \texttt{model\_type}, \texttt{n\_estimators},
+\texttt{max\_depth}, or \texttt{random\_seed}, then re-run \textbf{both}
+steps in order (these settings only take effect after retraining):
+
+\begin{lstlisting}
+python3 scripts/rail_train.py
+python3 scripts/rail_evaluate.py
+\end{lstlisting}
+
+Then repeat Part 3 to re-tune the threshold for your new model -- the best
+threshold can be different for different settings.
+
+\section*{Compete with classmates}
+Keep a scoreboard:
+
+\begin{center}
+\small
+\begin{tabular}{@{}*{5}{>{\raggedright\arraybackslash}p{2.9cm}}@{}}
+\toprule
+\textbf{Your name} & \textbf{model\_type} & \textbf{key settings} & \textbf{threshold} & \textbf{Mean IoU (higher=better)} \\
+\midrule
+ & & & & \\[10pt]
+ & & & & \\[10pt]
+ & & & & \\[10pt]
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Glossary}
+\begin{itemize}
+  \item \textbf{NDT (Non-Destructive Testing)} -- inspecting something for defects without damaging it, e.g. from a photo instead of cutting the rail open.
+  \item \textbf{Segmentation} -- instead of labeling a whole photo (``defective'' or not), the model marks \emph{which pixels} belong to the defect.
+  \item \textbf{Ground truth} -- the correct answer, here a hand-drawn map of exactly where each defect is, made by the dataset's original researchers.
+  \item \textbf{Threshold} -- the confidence cutoff (0 to 1) above which a pixel is called ``defect.'' The only setting you can change without retraining.
+  \item \textbf{IoU (Intersection over Union)} -- overlap between your model's guessed defect area and the real one, divided by their combined area. 1.0 = identical, 0 = no overlap.
+  \item \textbf{Dice score} -- a very similar overlap measure to IoU; usually a bit higher for the same prediction. Both are reported so you can compare.
+  \item \textbf{False positive} -- a normal pixel wrongly marked as a defect (a false alarm).
+  \item \textbf{False negative} -- a real defect pixel the model missed.
+  \item \textbf{Class imbalance} -- in every photo, the vast majority of pixels are normal rail and only a small area is defect. The model is specifically built to account for this, otherwise it could get a deceptively high score just by never predicting ``defect'' at all.
+  \item \textbf{Random Forest} -- a model made of many simple decision-making ``trees'' that vote on each pixel; \texttt{n\_estimators} = number of trees, \texttt{max\_depth} = how detailed each tree's questions can get.
+\end{itemize}
+
+\begin{warnbox}
+\begin{itemize}
+  \item \textbf{``no RSDDs images found''} -- run \texttt{python3 scripts/fetch\_rsdds.py} first to download the dataset (only needs to be done once).
+  \item \textbf{``no trained model found''} -- run \texttt{python3 scripts/rail\_train.py} before \texttt{rail\_evaluate.py}.
+  \item \textbf{Changed a setting but the score didn't change} -- only \texttt{threshold} takes effect immediately; every other setting requires re-running \texttt{rail\_train.py} first.
+  \item \textbf{Score looks much worse than a classmate's with identical settings} -- double check \texttt{random\_seed} is the same; it controls which photos land in the training vs. test group, so a different seed is training/testing on a different split of photos entirely.
+\end{itemize}
+\end{warnbox}
+
+\section*{Something to think about (discuss with the class)}
+\begin{itemize}
+  \item Why is a high IoU score harder to achieve here than a high accuracy score would be, given how small the defect areas are compared to the whole photo?
+  \item In a real inspection system, would you rather have a lower threshold (more false alarms) or a higher one (more missed defects)? Does your answer change if a missed crack could cause a derailment?
+  \item This dataset has no ``clean rail'' photos without any defect at all -- every image contains one. How might that affect what the model has learned, and what would you want to add to fix it?
+\end{itemize}
+
+\end{document}

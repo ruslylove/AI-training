@@ -1,0 +1,17 @@
+{
+  "name": "ai-training-slides",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Slidev presentation for the AI-training student labs (cargo fill-level estimation, railway NDT defect detection)",
+  "scripts": {
+    "dev": "slidev",
+    "build": "slidev build",
+    "export": "slidev export --per-slide"
+  },
+  "packageManager": "pnpm@10.7.1",
+  "devDependencies": {
+    "@slidev/cli": "^52.18.0",
+    "@slidev/theme-seriph": "^0.25.0",
+    "playwright-chromium": "^1.61.1"
+  }
+}

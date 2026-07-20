@@ -1,0 +1,22 @@
+# Cargo Fill-Level Lab -- edit these values, then re-run cargo_train.py and
+# cargo_evaluate.py. No coding needed, just change the numbers/words below.
+# See docs/labsheets/cargo_labsheet.md for what each setting means.
+
+# Which kind of model to train. Must be one of: random_forest, knn, linear_regression
+model_type: random_forest
+
+# --- random_forest settings (ignored unless model_type is random_forest) ---
+# How many "trees" vote on the answer. More trees = steadier but slower.
+n_estimators: 100
+# How deep each tree is allowed to grow. Bigger = can learn more detail, but
+# can also memorize noise instead of the real pattern ("overfitting").
+max_depth: 5
+
+# --- knn settings (ignored unless model_type is knn) ---
+# How many of the most similar-looking training photos to average together.
+n_neighbors: 5
+
+# Controls the random "coin flips" the model makes internally (which photos
+# get used, tie-breaking, etc). Changing it can change your score slightly
+# even with the same settings -- try a couple of values and see.
+random_seed: 42
