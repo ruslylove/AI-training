@@ -97,6 +97,19 @@ Faculty of Engineering, KMUTNB
 - **Bombardier Transportation** — Automatic Train Control (ATC) department
 - **Project's Advisory, Thailand Post** — fleet optimization (ทุน บพข) 
 
+<div class="grid grid-cols-2 gap-3 mt-4 text-center">
+  <div>
+    <img src="/img/bombardier-atc.png" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
+    <div class="text-[11px] font-semibold mt-1">Bombardier Transportation</div>
+    <div class="text-[10px] opacity-75">Automatic Train Control (ATC)</div>
+  </div>
+  <div>
+    <img src="/img/thailand-post-fleet.png" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
+    <div class="text-[11px] font-semibold mt-1">Thailand Post (ไปรษณีย์ไทย)</div>
+    <div class="text-[10px] opacity-75">Fleet Optimization (ทุน บพข)</div>
+  </div>
+</div>
+
 </div>
 <div>
 
@@ -106,6 +119,19 @@ Faculty of Engineering, KMUTNB
 - Digital twin-driven design for the railway industry (British Council, UK)
 - Predictive maintenance for lightweight wagons — INNOWAG (Shift2Rail, EU)
 - Rail surface defect detection with neural networks; 3D rail reconstruction with Mask R-CNN 
+
+<div class="grid grid-cols-2 gap-3 mt-4 text-center">
+  <div>
+    <img src="/img/uk-railway-digital-twin.png" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
+    <div class="text-[11px] font-semibold mt-1">UK Railway Digital Twin</div>
+    <div class="text-[10px] opacity-75">British Council & Shift2Rail (UK)</div>
+  </div>
+  <div>
+    <img src="/img/ruslee-ndt-field.png" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
+    <div class="text-[11px] font-semibold mt-1">UK Field Inspection</div>
+    <div class="text-[10px] opacity-75">Newcastle University, UK</div>
+  </div>
+</div>
 
 </div>
 </div>
@@ -118,13 +144,13 @@ Faculty of Engineering, KMUTNB
 <div>
   <img src="/img/ruslee-ndt-field.png" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
   <div class="text-xs font-bold mt-2">Field NDT Inspection</div>
-  <div class="text-[11px] opacity-75">Non-destructive microwave & eddy current testing</div>
+  <div class="text-[11px] opacity-75">Non-destructive testing (RFID Sensors), Barrow Hill, Newcastle, UK</div>
 </div>
 
 <div>
   <img src="/img/ruslee-lecture-live.jpg" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
-  <div class="text-xs font-bold mt-2">Railway Teaching</div>
-  <div class="text-[11px] opacity-75">Railway signalling & summer school lecture</div>
+  <div class="text-xs font-bold mt-2">Railway Training</div>
+  <div class="text-[11px] opacity-75">Railway signalling & summer school lecture, Southwest JiaoTong University, Chengdu, China</div>
 </div>
 
 <div>
@@ -136,7 +162,21 @@ Faculty of Engineering, KMUTNB
 <div>
   <img src="/img/railway-digital-twin-workshop.jpg" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
   <div class="text-xs font-bold mt-2">Digital Twin Workshop</div>
-  <div class="text-[11px] opacity-75">British Council & international railway workshop</div>
+  <div class="text-[11px] opacity-75">British Council & international railway workshop, Bangkok, Thailand</div>
+</div>
+</div>
+
+<div class="grid grid-cols-2 gap-3 mt-3 text-center">
+<div>
+  <img src="/img/ruslee-ect-rail-setup.jpg" class="rounded-lg shadow border border-gray-500/20" style="height:130px; width:100%; object-fit:cover;">
+  <div class="text-xs font-bold mt-2">Eddy Current Testing Rig</div>
+  <div class="text-[11px] opacity-75">Rail specimen with seeded defects, automated probe scanning &amp; oscilloscope acquisition</div>
+</div>
+
+<div>
+  <img src="/img/ruslee-rail-3d-reconstruction.jpg" class="rounded-lg shadow border border-gray-500/20" style="height:130px; margin:auto; object-fit:contain;">
+  <div class="text-xs font-bold mt-2">3D Rail Defect Reconstruction</div>
+  <div class="text-[11px] opacity-75">Reconstructed rail-head surface vs. ground truth across 4 seeded defects</div>
 </div>
 </div>
 
@@ -145,8 +185,7 @@ layout: section
 ---
 
 # Part 1
-## AI & NDT Fundamentals
-### ~60 minutes
+## NDT & AI Fundamentals
 
 ---
 layout: two-cols-header
@@ -173,6 +212,45 @@ layout: two-cols-header
 - Two real, hands-on case studies
 - Building toward **your own pilot AI project idea**
   for your unit
+
+<div class="mt-4">
+  <img src="/img/deep-engineering-ai.png" class="rounded-xl shadow-lg border border-gray-500/20" style="height: 180px; width: 100%; object-fit: cover;">
+  <div class="text-[11px] opacity-75 mt-1.5 text-center font-medium">Deep Engineering AI & ML Research for Transportation Infrastructure</div>
+</div>
+
+---
+
+# Fundamentals of Transportation Maintenance
+
+<div class="grid grid-cols-2 gap-6 items-center">
+<div>
+
+### Evolution of Maintenance Paradigms
+
+<div class="text-xs space-y-3 mt-2">
+
+- **1. Reactive Maintenance (Run-to-Failure)**  
+  Repair *after* breakdown occurs — high downtime, emergency costs & safety hazards.
+- **2. Preventive Maintenance (Time / Mileage-Based)**  
+  Scheduled interval servicing — leads to premature component replacement or undetected early flaws.
+- **3. Condition-Based Maintenance (CBM) & NDT**  
+  Assess internal & structural health **without damaging assets** using Non-Destructive Testing (NDT).
+- **4. AI Predictive Maintenance (PdM)**  
+  Combine continuous NDT data streams with **AI/ML prognostics** to forecast failure before it happens.
+
+</div>
+
+<div class="mt-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/30 text-xs">
+💡 <strong>The Bridge to NDT:</strong> NDT provides the essential high-fidelity sensory data required to move from rigid calendar schedules to intelligent AI prognostics.
+</div>
+
+</div>
+
+<div class="text-center">
+  <img src="/img/maintenance-evolution.png" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 330px; width: 100%; object-fit: contain;">
+  <div class="text-[11px] opacity-70 mt-2">4 Generations of Transportation Asset Maintenance</div>
+</div>
+</div>
 
 ---
 
@@ -285,7 +363,7 @@ its entire operating life.
 # Traditional Rail Inspection: The Bottleneck
 
 <div class="grid grid-cols-5 gap-6 mt-4 items-center">
-<div class="col-span-3 text-sm">
+<div class="col-span-3">
 
 <v-clicks>
 
@@ -358,62 +436,143 @@ learning**.
 layout: two-cols-header
 ---
 
-# Two Flavors of Output You'll See Today
+# Two Flavors of AI Output You'll See Today
+
+<div class="text-xs opacity-75 mb-3 -mt-1">
+Understanding how Machine Learning models solve different engineering problems in transportation
+</div>
 
 ::left::
 
-### Regression → a **number**
+<div class="flex flex-col justify-between bg-gradient-to-b from-blue-950/40 via-slate-900/60 to-slate-950/80 border border-blue-500/30 rounded-2xl p-4 shadow-xl relative overflow-hidden group hover:border-blue-400/60 transition-all duration-300">
+  <div class="absolute -top-10 -right-10 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
 
-<div class="flex items-center justify-center gap-2 mt-6">
-  <img src="/img/cargo-front-later.jpg" style="height:110px; flex-shrink:0" class="rounded shadow">
-  <carbon:arrow-right class="text-2xl opacity-50" style="flex-shrink:0"/>
-  <div class="text-4xl font-bold" style="color:#1F5FA8">72%</div>
-</div>
+  <div>
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400 bg-blue-500/15 px-2.5 py-0.5 rounded-full border border-blue-500/30">
+        Flavor 1 — Regression
+      </span>
+      <span class="text-[10px] opacity-60 font-mono">Continuous Value</span>
+    </div>
+    <h3 class="text-base font-bold text-white mb-1">
+      Output = A <span class="text-blue-400 underline decoration-blue-500/40 underline-offset-4">Continuous Number</span>
+    </h3>
+    <p class="text-[11px] opacity-70 mb-3">Predicts single quantitative measurements like percentage, weight, or speed.</p>
+    <!-- Visual Flow -->
+    <div class="flex items-center justify-between bg-slate-950/80 rounded-xl p-3 border border-white/5 my-2">
+      <div class="text-center">
+        <img src="/img/cargo-front-later.jpg" class="h-20 w-24 object-cover rounded-lg shadow-md border border-white/10 group-hover:scale-105 transition-transform duration-300">
+        <div class="text-[10px] opacity-60 mt-1">Input Image</div>
+      </div>
+      <div class="flex flex-col items-center justify-center px-1">
+        <carbon:arrow-right class="text-xl text-blue-400" />
+        <span class="text-[9px] text-blue-300/80 font-mono mt-0.5">CNN Model</span>
+      </div>
+      <div class="text-center flex flex-col items-center justify-center">
+        <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-extrabold text-2xl px-3 py-1.5 rounded-xl shadow-lg shadow-blue-500/20 border border-blue-400/40">
+          72%
+        </div>
+        <div class="text-[10px] font-medium text-blue-300 mt-1">Cargo Fill Level</div>
+      </div>
+    </div>
+  </div>
 
-<div class="text-sm opacity-70 mt-4 text-center">
-Lab 1: what % of cargo space is used? (0–100)
+  <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs">
+    <span class="font-semibold text-blue-300 text-[11px]">Lab 1 Context:</span>
+    <span class="text-[10px] opacity-90 bg-blue-950 px-2 py-0.5 rounded border border-blue-800/60 text-blue-200">Cargo Volume Estimation</span>
+  </div>
 </div>
 
 ::right::
 
-### Segmentation → a **map**
+<div class="flex flex-col justify-between bg-gradient-to-b from-emerald-950/40 via-slate-900/60 to-slate-950/80 border border-emerald-500/30 rounded-2xl p-4 shadow-xl relative overflow-hidden group hover:border-emerald-400/60 transition-all duration-300">
+  <div class="absolute -top-10 -right-10 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
 
-<div class="flex items-center justify-center gap-2 mt-6">
-  <img src="/img/rail-sample.jpg" style="height:85px; flex-shrink:0" class="rounded shadow">
-  <carbon:arrow-right class="text-2xl opacity-50" style="flex-shrink:0"/>
-  <img src="/img/rail-sample-mask.png" style="height:85px; flex-shrink:0" class="rounded shadow">
-</div>
+  <div>
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+        Flavor 2 — Segmentation
+      </span>
+      <span class="text-[10px] opacity-60 font-mono">Pixel-Level Mask</span>
+    </div>
+    <h3 class="text-base font-bold text-white mb-1">
+      Output = A <span class="text-emerald-400 underline decoration-emerald-500/40 underline-offset-4">Pixel Defect Map</span>
+    </h3>
+    <p class="text-[11px] opacity-70 mb-3">Classifies every pixel to isolate precise defect boundaries & locations.</p>
+    <!-- Visual Flow -->
+    <div class="flex items-center justify-between bg-slate-950/80 rounded-xl p-3 border border-white/5 my-2">
+      <div class="text-center">
+        <img src="/img/rail-sample.jpg" class="h-20 w-24 object-cover rounded-lg shadow-md border border-white/10 group-hover:scale-105 transition-transform duration-300">
+        <div class="text-[10px] opacity-60 mt-1">Raw Rail Photo</div>
+      </div>
+      <div class="flex flex-col items-center justify-center px-1">
+        <carbon:arrow-right class="text-xl text-emerald-400" />
+        <span class="text-[9px] text-emerald-300/80 font-mono mt-0.5">U-Net Model</span>
+      </div>
+      <div class="text-center">
+        <img src="/img/rail-sample-mask.png" class="h-20 w-24 object-cover rounded-lg shadow-md border border-emerald-500/40 group-hover:scale-105 transition-transform duration-300">
+        <div class="text-[10px] font-medium text-emerald-300 mt-1">Defect Mask Map</div>
+      </div>
+    </div>
+  </div>
 
-<div class="text-sm opacity-70 mt-4 text-center">
-Lab 2: which pixels are a rail defect?
+  <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs">
+    <span class="font-semibold text-emerald-300 text-[11px]">Lab 2 Context:</span>
+    <span class="text-[10px] opacity-90 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800/60 text-emerald-200">Railway Defect Segmentation</span>
+  </div>
 </div>
 
 ---
 
-# Train / Validation / Test
+# Train / Validation / Test Split
 
-## Why we hide data from the model
+<div class="grid grid-cols-2 gap-6 items-center">
+<div>
 
-If you test a model on the same photos it trained on, of course it
-looks good — it might have simply **memorized** them.
+<h3 class="text-sm font-semibold text-blue-400 mb-2">Why Hide Data from the Model?</h3>
 
-<v-click>
+<p class="text-xs opacity-80 leading-relaxed mb-3">
+Testing a model on training data causes <strong>memorization (overfitting)</strong>. To ensure true real-world reliability, every dataset is split into 3 distinct subsets:
+</p>
 
-So every dataset gets split into three groups:
+<div class="space-y-2.5 text-xs">
+  <div class="p-2.5 bg-blue-950/40 border border-blue-500/30 rounded-xl flex items-start gap-2.5">
+    <div class="bg-blue-500/20 text-blue-300 font-bold px-2 py-0.5 rounded text-[11px] mt-0.5">70%</div>
+    <div>
+      <div class="font-bold text-blue-300">1. Train Set</div>
+      <div class="text-[11px] opacity-75">Used by the model to adjust weights and learn underlying feature patterns.</div>
+    </div>
+  </div>
 
-- **Train** — the model learns from these
-- **Validation** — used to sanity-check while tuning settings
-- **Test** — held back completely; the honest, final score
+  <div class="p-2.5 bg-purple-950/40 border border-purple-500/30 rounded-xl flex items-start gap-2.5">
+    <div class="bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded text-[11px] mt-0.5">15%</div>
+    <div>
+      <div class="font-bold text-purple-300">2. Validation Set</div>
+      <div class="text-[11px] opacity-75">Used during training to tune hyperparameters & prevent overfitting.</div>
+    </div>
+  </div>
 
-</v-click>
+  <div class="p-2.5 bg-emerald-950/40 border border-emerald-500/30 rounded-xl flex items-start gap-2.5">
+    <div class="bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded text-[11px] mt-0.5">15%</div>
+    <div>
+      <div class="font-bold text-emerald-300">3. Test Set (Locked)</div>
+      <div class="text-[11px] opacity-75">Held back completely until the end to give an honest, final accuracy score.</div>
+    </div>
+  </div>
+</div>
 
-<v-click>
+<div class="mt-3 p-2.5 bg-amber-500/10 rounded-lg border border-amber-500/30 text-[11px] flex items-center gap-2">
+  <span>💡</span>
+  <span><strong>Lab Note:</strong> Today's hands-on scripts perform this 3-way split automatically!</span>
+</div>
 
-Today's lab scripts do this split automatically. You don't have to do
-it — but you should know *why* it happens, because it's exactly what
-makes a reported accuracy trustworthy or not.
+</div>
 
-</v-click>
+<div class="text-center">
+  <img src="/img/dataset-split-diagram.png" class="rounded-2xl shadow-2xl border border-gray-500/30" style="max-height: 370px; width: 100%; object-fit: contain;">
+  <div class="text-[11px] opacity-70 mt-2 font-medium">Dataset Partitioning Architecture for Machine Learning</div>
+</div>
+</div>
 
 ---
 
@@ -461,7 +620,7 @@ universal "accuracy" number that works for both.
 A model can only be as good as the labels it learns from.
 
 <div class="grid grid-cols-5 gap-6 mt-4 items-center">
-<div class="col-span-3 text-sm">
+<div class="col-span-3">
 
 <v-click>
 
@@ -515,7 +674,7 @@ failures, accidents) are almost always a tiny minority of the records.
 Thailand's transport network is huge, aging, and safety-critical — exactly where AI pays off.
 
 <div class="grid grid-cols-5 gap-6 mt-4 items-center">
-<div class="col-span-3 text-sm">
+<div class="col-span-3 text-base">
 
 <v-clicks>
 
