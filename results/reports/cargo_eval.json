@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-21T03:54:26.024332+00:00",
+  "model_type": "random_forest",
+  "config": {
+    "model_type": "random_forest",
+    "n_estimators": 100,
+    "max_depth": 5,
+    "n_neighbors": 5,
+    "random_seed": 42
+  },
+  "n_test": 6,
+  "mae_percentage_points": 41.791666666666664,
+  "predictions": [
+    {
+      "image_id": "66-0129_2026-06-10_front_010",
+      "actual": 100.0,
+      "predicted": 15.8
+    },
+    {
+      "image_id": "66-0129_2026-06-10_front_011",
+      "actual": 25.0,
+      "predicted": 3.2
+    },
+    {
+      "image_id": "66-0129_2026-06-10_front_015",
+      "actual": 75.0,
+      "predicted": 80.2
+    },
+    {
+      "image_id": "66-0129_2026-06-10_rear_010",
+      "actual": 100.0,
+      "predicted": 54.5
+    },
+    {
+      "image_id": "66-0129_2026-06-10_rear_011",
+      "actual": 50.0,
+      "predicted": 0.0
+    },
+    {
+      "image_id": "66-0129_2026-06-10_rear_015",
+      "actual": 0.0,
+      "predicted": 44.0
+    }
+  ]
+}
