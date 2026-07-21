@@ -176,29 +176,143 @@ layout: two-cols-header
 
 ---
 
-# Why Transportation & Rail Need AI
+# Why Rail Specifically Needs NDT
 
-Thailand's transport network is huge, aging, and safety-critical — exactly where AI pays off.
+<div class="grid grid-cols-4 gap-3 my-3">
+<div class="text-center">
+  <img src="/img/defect-head-checks.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
+  <div class="text-xs font-bold mt-1.5">Head Checks / RCF</div>
+  <div class="text-[11px] opacity-75">Fine surface micro-cracks</div>
+</div>
+<div class="text-center">
+  <img src="/img/defect-spalling.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
+  <div class="text-xs font-bold mt-1.5">Spalling / Squats</div>
+  <div class="text-[11px] opacity-75">Surface pitting & metal loss</div>
+</div>
+<div class="text-center">
+  <img src="/img/defect-corrugation.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
+  <div class="text-xs font-bold mt-1.5">Corrugation</div>
+  <div class="text-[11px] opacity-75">Periodic wave-like wear</div>
+</div>
+<div class="text-center">
+  <img src="/img/defect-break.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
+  <div class="text-xs font-bold mt-1.5">Rail Break</div>
+  <div class="text-[11px] opacity-75">Severe transverse fracture</div>
+</div>
+</div>
+
+<v-clicks>
+
+- Surface defects like **head checks** and **spalling** can propagate internally into catastrophic **rail breaks**
+- Continuous traffic loading means rail defects accumulate constantly — inspection is an **ongoing process**
+
+</v-clicks>
+
+---
+
+# What is Non-Destructive Testing (NDT)?
+
+**Definition:** inspecting or evaluating a material, component, or
+structure's condition **without damaging it or removing it from
+service**.
+
+<v-click>
+
+**Contrast with destructive testing** — e.g. pulling a sample to
+failure to find its breaking strength. That tells you about *one
+sample*, and destroys it. You obviously can't test 100% of a rail
+network that way.
+
+</v-click>
+
+<v-click>
+
+NDT lets you inspect the **actual asset in service**, repeatedly, over
+its entire operating life.
+
+</v-click>
+
+---
+
+# Common NDT Methods
+
+<div class="grid grid-cols-3 gap-3 my-2 text-xs">
+<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
+  <img src="/img/ndt-visual.png" class="rounded h-24 w-full object-cover mb-2">
+  <div class="font-bold text-sm text-blue-600 dark:text-blue-400">Visual (VT)</div>
+  <div class="opacity-90 font-medium mt-0.5">Camera / Optical examination</div>
+  <div class="opacity-70 text-[11px] mt-1">First line of defense — automated in Lab 2</div>
+</div>
+
+<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
+  <img src="/img/ndt-ultrasonic.png" class="rounded h-24 w-full object-cover mb-2">
+  <div class="font-bold text-sm text-amber-600 dark:text-amber-400">Ultrasonic (UT)</div>
+  <div class="opacity-90 font-medium mt-0.5">High-frequency sound waves</div>
+  <div class="opacity-70 text-[11px] mt-1">Internal cracks & internal rail defects</div>
+</div>
+
+<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
+  <img src="/img/ndt-magnetic-particle.png" class="rounded h-24 w-full object-cover mb-2">
+  <div class="font-bold text-sm text-emerald-600 dark:text-emerald-400">Magnetic Particle (MPI)</div>
+  <div class="opacity-90 font-medium mt-0.5">Magnetic field + iron particles</div>
+  <div class="opacity-70 text-[11px] mt-1">Ferromagnetic surface/near-surface cracks</div>
+</div>
+
+<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
+  <img src="/img/ndt-eddy-current.png" class="rounded h-24 w-full object-cover mb-2">
+  <div class="font-bold text-sm text-purple-600 dark:text-purple-400">Eddy Current (ECT)</div>
+  <div class="opacity-90 font-medium mt-0.5">Induced electromagnetic fields</div>
+  <div class="opacity-70 text-[11px] mt-1">Shallow surface micro-flaws & head checks</div>
+</div>
+
+<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
+  <img src="/img/ndt-radiography.png" class="rounded h-24 w-full object-cover mb-2">
+  <div class="font-bold text-sm text-red-600 dark:text-red-400">Radiographic (RT)</div>
+  <div class="opacity-90 font-medium mt-0.5">Industrial X-rays / Gamma rays</div>
+  <div class="opacity-70 text-[11px] mt-1">Internal weld porosity & cast structure</div>
+</div>
+
+<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
+  <img src="/img/ndt-thermography.png" class="rounded h-24 w-full object-cover mb-2">
+  <div class="font-bold text-sm text-cyan-600 dark:text-cyan-400">Thermography (IRT)</div>
+  <div class="opacity-90 font-medium mt-0.5">Infrared heat signature mapping</div>
+  <div class="opacity-70 text-[11px] mt-1">Thermal anomalies & friction hot spots</div>
+</div>
+</div>
+
+---
+
+# Traditional Rail Inspection: The Bottleneck
 
 <div class="grid grid-cols-5 gap-6 mt-4 items-center">
 <div class="col-span-3 text-sm">
 
 <v-clicks>
 
-- **Coverage Gap**: Track-km to inspect vastly exceed available inspector-hours
-- **Rare Anomalies**: Defects are rare events hidden inside huge volumes of routine data — ideal for AI
-- **Consistency**: Repeatable judgment vs. human fatigue and subjectivity
-- **Human-in-the-Loop**: Frees skilled staff for critical decisions AI can't make
+- **Manual walking inspection** — thorough, but slow, subjective, fatigue-prone, and dependent on weather & heat
+- **Specialized inspection trains** — fast and objective, but expensive and limited in availability/scheduling
+- **The coverage gap** — thousands of track-km vs limited inspector-hours and vehicle-hours to cover them
 
 </v-clicks>
 
 </div>
 
 <div class="col-span-2 text-center">
-  <img src="/img/rail-inspection-train.png" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 240px; width: 100%; object-fit: cover;">
-  <div class="text-[11px] opacity-70 mt-2">Automated high-speed rail scanning vehicle</div>
+  <img src="/img/manual-walking-inspector.png" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 240px; width: 100%; object-fit: cover;">
+  <div class="text-[11px] opacity-70 mt-2">Manual track walking inspection under harsh weather</div>
 </div>
 </div>
+
+---
+layout: center
+class: text-center
+---
+
+# From NDT to AI Fundamentals
+
+We've covered what NDT is, why rail needs it, and where traditional
+inspection struggles to keep up. Now: the AI concepts today's labs are
+built on.
 
 ---
 
@@ -395,141 +509,28 @@ failures, accidents) are almost always a tiny minority of the records.
 </v-click>
 
 ---
-layout: center
-class: text-center
----
 
-# From AI Concepts to NDT
+# Why Transportation & Rail Need AI
 
-We've covered how AI learns. Now: the specific inspection discipline
-today's Lab 2 is built on.
-
----
-
-# What is Non-Destructive Testing (NDT)?
-
-**Definition:** inspecting or evaluating a material, component, or
-structure's condition **without damaging it or removing it from
-service**.
-
-<v-click>
-
-**Contrast with destructive testing** — e.g. pulling a sample to
-failure to find its breaking strength. That tells you about *one
-sample*, and destroys it. You obviously can't test 100% of a rail
-network that way.
-
-</v-click>
-
-<v-click>
-
-NDT lets you inspect the **actual asset in service**, repeatedly, over
-its entire operating life.
-
-</v-click>
-
----
-
-# Common NDT Methods
-
-<div class="grid grid-cols-3 gap-3 my-2 text-xs">
-<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
-  <img src="/img/ndt-visual.png" class="rounded h-24 w-full object-cover mb-2">
-  <div class="font-bold text-sm text-blue-600 dark:text-blue-400">Visual (VT)</div>
-  <div class="opacity-90 font-medium mt-0.5">Camera / Optical examination</div>
-  <div class="opacity-70 text-[11px] mt-1">First line of defense — automated in Lab 2</div>
-</div>
-
-<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
-  <img src="/img/ndt-ultrasonic.png" class="rounded h-24 w-full object-cover mb-2">
-  <div class="font-bold text-sm text-amber-600 dark:text-amber-400">Ultrasonic (UT)</div>
-  <div class="opacity-90 font-medium mt-0.5">High-frequency sound waves</div>
-  <div class="opacity-70 text-[11px] mt-1">Internal cracks & internal rail defects</div>
-</div>
-
-<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
-  <img src="/img/ndt-magnetic-particle.png" class="rounded h-24 w-full object-cover mb-2">
-  <div class="font-bold text-sm text-emerald-600 dark:text-emerald-400">Magnetic Particle (MPI)</div>
-  <div class="opacity-90 font-medium mt-0.5">Magnetic field + iron particles</div>
-  <div class="opacity-70 text-[11px] mt-1">Ferromagnetic surface/near-surface cracks</div>
-</div>
-
-<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
-  <img src="/img/ndt-eddy-current.png" class="rounded h-24 w-full object-cover mb-2">
-  <div class="font-bold text-sm text-purple-600 dark:text-purple-400">Eddy Current (ECT)</div>
-  <div class="opacity-90 font-medium mt-0.5">Induced electromagnetic fields</div>
-  <div class="opacity-70 text-[11px] mt-1">Shallow surface micro-flaws & head checks</div>
-</div>
-
-<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
-  <img src="/img/ndt-radiography.png" class="rounded h-24 w-full object-cover mb-2">
-  <div class="font-bold text-sm text-red-600 dark:text-red-400">Radiographic (RT)</div>
-  <div class="opacity-90 font-medium mt-0.5">Industrial X-rays / Gamma rays</div>
-  <div class="opacity-70 text-[11px] mt-1">Internal weld porosity & cast structure</div>
-</div>
-
-<div class="rounded-lg p-2.5 bg-gray-500/10 border border-gray-500/20 shadow-sm flex flex-col">
-  <img src="/img/ndt-thermography.png" class="rounded h-24 w-full object-cover mb-2">
-  <div class="font-bold text-sm text-cyan-600 dark:text-cyan-400">Thermography (IRT)</div>
-  <div class="opacity-90 font-medium mt-0.5">Infrared heat signature mapping</div>
-  <div class="opacity-70 text-[11px] mt-1">Thermal anomalies & friction hot spots</div>
-</div>
-</div>
-
----
-
-# Why Rail Specifically Needs NDT
-
-<div class="grid grid-cols-4 gap-3 my-3">
-<div class="text-center">
-  <img src="/img/defect-head-checks.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
-  <div class="text-xs font-bold mt-1.5">Head Checks / RCF</div>
-  <div class="text-[11px] opacity-75">Fine surface micro-cracks</div>
-</div>
-<div class="text-center">
-  <img src="/img/defect-spalling.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
-  <div class="text-xs font-bold mt-1.5">Spalling / Squats</div>
-  <div class="text-[11px] opacity-75">Surface pitting & metal loss</div>
-</div>
-<div class="text-center">
-  <img src="/img/defect-corrugation.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
-  <div class="text-xs font-bold mt-1.5">Corrugation</div>
-  <div class="text-[11px] opacity-75">Periodic wave-like wear</div>
-</div>
-<div class="text-center">
-  <img src="/img/defect-break.png" class="rounded shadow" style="height:120px; width:100%; object-fit:cover;">
-  <div class="text-xs font-bold mt-1.5">Rail Break</div>
-  <div class="text-[11px] opacity-75">Severe transverse fracture</div>
-</div>
-</div>
-
-<v-clicks>
-
-- Surface defects like **head checks** and **spalling** can propagate internally into catastrophic **rail breaks**
-- Continuous traffic loading means rail defects accumulate constantly — inspection is an **ongoing process**
-
-</v-clicks>
-
----
-
-# Traditional Rail Inspection: The Bottleneck
+Thailand's transport network is huge, aging, and safety-critical — exactly where AI pays off.
 
 <div class="grid grid-cols-5 gap-6 mt-4 items-center">
 <div class="col-span-3 text-sm">
 
 <v-clicks>
 
-- **Manual walking inspection** — thorough, but slow, subjective, fatigue-prone, and dependent on weather & heat
-- **Specialized inspection trains** — fast and objective, but expensive and limited in availability/scheduling
-- **The coverage gap** — thousands of track-km vs limited inspector-hours and vehicle-hours to cover them
+- **Coverage Gap**: Track-km to inspect vastly exceed available inspector-hours
+- **Rare Anomalies**: Defects are rare events hidden inside huge volumes of routine data — ideal for AI
+- **Consistency**: Repeatable judgment vs. human fatigue and subjectivity
+- **Human-in-the-Loop**: Frees skilled staff for critical decisions AI can't make
 
 </v-clicks>
 
 </div>
 
 <div class="col-span-2 text-center">
-  <img src="/img/manual-walking-inspector.png" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 240px; width: 100%; object-fit: cover;">
-  <div class="text-[11px] opacity-70 mt-2">Manual track walking inspection under harsh weather</div>
+  <img src="/img/rail-inspection-train.png" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 240px; width: 100%; object-fit: cover;">
+  <div class="text-[11px] opacity-70 mt-2">Automated high-speed rail scanning vehicle</div>
 </div>
 </div>
 
@@ -809,6 +810,146 @@ Set with <code>model_type</code> in <code>cargo_config.yaml</code> — try all t
 
 ---
 
+# Deep Dive: Random Forest
+
+<div class="text-sm opacity-80 mt-1">An ensemble of decision trees, trained on randomized subsets of the data, whose predictions are averaged.</div>
+
+<div class="grid grid-cols-2 gap-4 mt-3 text-xs leading-snug">
+<div>
+
+**How it works**
+
+- Each tree trains on a **bootstrap sample** (*bagging*, Breiman 1996) and each split considers only a **random subset of features** (Breiman 2001) — this decorrelates the trees
+- Every split greedily picks the feature/threshold that most reduces variance in the target ($\Delta = \mathrm{Var}(y_{\text{parent}}) - \text{weighted child variance}$)
+- Final prediction is the plain average across all $T$ trees:
+
+$$\hat y = \frac{1}{T}\sum_{t=1}^{T} f_t(x)$$
+
+</div>
+<div>
+
+<div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
+
+**Hyperparameters:** `n_estimators` ($T$) — error shrinks ~$1/\sqrt{T}$, diminishing returns past a point. `max_depth` — caps one tree's capacity.
+
+</div>
+
+<div class="mt-2 p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/30">
+
+**Bias/variance:** one deep tree is low-bias/high-variance; averaging many *decorrelated* high-variance trees cancels noise without raising bias.
+
+</div>
+
+<div class="mt-2 p-2.5 rounded-lg bg-gray-500/10 border border-gray-500/20">
+
+✅ nonlinear patterns & interactions, robust to noise &nbsp;&nbsp; ❌ costs memory/time, less interpretable
+
+</div>
+
+</div>
+</div>
+
+<div class="mt-2 text-xs opacity-70">
+In Lab 1: the default <code>model_type</code> — a strong general-purpose choice when you don't know the shape of the relationship in advance.
+</div>
+
+---
+
+# Deep Dive: K-Nearest Neighbors
+
+<div class="text-sm opacity-80 mt-1">An instance-based, "lazy" learner — there is no training step, the stored training data <strong>is</strong> the model.</div>
+
+<div class="grid grid-cols-2 gap-4 mt-3 text-xs leading-snug">
+<div>
+
+**How it works**
+
+- To predict for photo $x$, compute its distance to every training photo in feature space: $d(x, x_i) = \lVert x - x_i \rVert_2$ (typically Euclidean)
+- Take the $k$ closest photos (`n_neighbors`) and average their labels:
+
+$$\hat y = \frac{1}{k}\sum_{i \,\in\, N_k(x)} y_i$$
+
+- **Curse of dimensionality**: our feature vector has ~83 numbers (brightness stats + histogram + 8×8 coarse grid) — in high dimensions, distances between points get less discriminative, a known weak spot for KNN
+
+</div>
+<div>
+
+<div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
+
+**Hyperparameter:** `n_neighbors` ($k$) is the bias/variance dial in one number.
+
+</div>
+
+<div class="mt-2 p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/30">
+
+**Bias/variance:** small $k$ follows local noise closely (low bias/high variance, overfits). Large $k$ averages over a big neighborhood (high bias/low variance), trending toward the global mean as $k \to n$.
+
+</div>
+
+<div class="mt-2 p-2.5 rounded-lg bg-gray-500/10 border border-gray-500/20">
+
+✅ zero training cost, adapts to local structure &nbsp;&nbsp; ❌ slow at prediction, sensitive to scaling, weak in high-dim
+
+</div>
+
+</div>
+</div>
+
+<div class="mt-2 text-xs opacity-70">
+
+In Lab 1: with only ~30 training photos, $k$ is literally how many labeled examples get blended into each guess — try `n_neighbors=1` vs. `10`.
+
+</div>
+
+---
+
+# Deep Dive: Linear Regression
+
+<div class="text-sm opacity-80 mt-1">Assumes the target is a straight-line (affine) function of the input features — the simplest possible model, and this lab's only "settings-free" one.</div>
+
+<div class="grid grid-cols-2 gap-4 mt-3 text-xs leading-snug">
+<div>
+
+**How it works**
+
+$$\hat y = w^\top x + b$$
+
+- Fit by **Ordinary Least Squares**: choose $w, b$ to minimize the sum of squared residuals over the training photos:
+
+$$(w^*, b^*) = \arg\min_{w,\,b} \sum_{i=1}^{n} \left(y_i - w^\top x_i - b\right)^2$$
+
+- Solved in closed form via the normal equations — no iteration, no hyperparameters to tune
+
+</div>
+<div>
+
+<div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
+
+**Hyperparameters:** none — `random_seed` is the only setting that still applies (it only affects the train/val/test split, not the fit itself).
+
+</div>
+
+<div class="mt-2 p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/30">
+
+**Bias/variance:** high bias (hard-assumes linearity), low variance — stable and reproducible, but systematically wrong whenever the true relationship curves.
+
+</div>
+
+<div class="mt-2 p-2.5 rounded-lg bg-gray-500/10 border border-gray-500/20">
+
+✅ fully interpretable, fast, no overfitting risk &nbsp;&nbsp; ❌ can't capture nonlinearity/interactions, sensitive to outliers
+
+</div>
+
+</div>
+</div>
+
+<div class="mt-2 text-xs opacity-70">
+In Lab 1: this is why <code>linear_regression</code> usually scores worst (MAE ≈13 vs. ≈2–3) — fill % isn't a straight-line function of brightness/edge features.
+</div>
+
+---
+
 # Lab 1: What Do the Other Settings Mean?
 
 <div class="text-sm">
@@ -850,6 +991,49 @@ Did the best score come from the best settings — or the most careful labeling?
 </div>
 
 </v-click>
+
+---
+
+# Lab 1: Example Run — What to Expect
+
+<div class="text-sm">
+
+| model_type | key settings | MAE (percentage points) |
+|---|---|---|
+| random_forest (default) | n_estimators=100, max_depth=5 | 2.9 |
+| knn | n_neighbors=3 | 2.4 |
+| random_forest | n_estimators=300, max_depth=15 | 2.7 |
+| random_forest | n_estimators=20, max_depth=2 (shallow/few trees) | 5.0 |
+| linear_regression | (default) | 13.1 |
+
+</div>
+
+<div class="mt-4 text-sm opacity-70">
+
+- This dry run used placeholder photos with a clean fill gradient — a pipeline
+  smoke test, not real fleet data. Expect your own MAE to be **higher and more
+  variable**, since real photos are messier and labeling is subjective.
+- The pattern to expect still holds: `linear_regression` underfits badly,
+  very shallow/few-tree forests underfit, and `knn`/well-tuned forests land
+  closest to the pack.
+
+</div>
+
+---
+
+# Lab 1: Real Output Example
+
+<div class="text-center">
+<img src="/img/cargo-eval-example.png" style="max-height:150px; margin:auto">
+</div>
+
+<div class="text-center mt-2">
+<img src="/img/cargo-eval-scatter-example.png" style="max-height:150px; margin:auto">
+</div>
+
+<div class="text-xs opacity-70 text-center mt-1">
+Actual output from this pipeline's default settings — the photo strip (top) and scatter plot (bottom) it saves after every <code>cargo_evaluate.py</code> run.
+</div>
 
 ---
 layout: center
@@ -999,7 +1183,7 @@ layout: section
 </div>
 
 <div class="text-sm opacity-70 text-center mt-2">
-Actual output from this pipeline: rail photo · true defect map · predicted defect map — see how it over-predicts? That's exactly what threshold tuning fixes.
+Actual output from this pipeline: true and predicted defect areas overlaid on the rail photo — <strong>yellow</strong> = correctly caught, <strong>green</strong> = missed, <strong>red</strong> = false alarm. See all that red? That's exactly what threshold tuning fixes.
 </div>
 
 ---
@@ -1020,6 +1204,61 @@ Re-run `rail_evaluate.py` after each change, track your best **Mean IoU**
 (higher is better) — each check takes only seconds.
 
 </v-click>
+
+---
+
+# Lab 2: Example Run — What to Expect
+
+<div class="text-sm">
+Default settings (<code>random_forest</code>, 100 trees, max_depth=8, threshold=0.5):
+&nbsp; <strong>Mean IoU: 0.248 · Mean Dice: 0.379</strong>
+</div>
+
+<div class="grid grid-cols-2 gap-6 mt-3">
+<div class="text-xs leading-tight">
+
+Threshold sweep, same trained model (no retrain):
+
+| threshold | Mean IoU | Mean Dice |
+|---|---|---|
+| 0.2 | 0.157 | 0.253 |
+| 0.3 | 0.187 | 0.294 |
+| 0.4 | 0.207 | 0.322 |
+| 0.5 (default) | 0.248 | 0.379 |
+| 0.6 | 0.299 | 0.443 |
+| **0.7–0.8** | **0.33–0.34** | **0.46–0.48** |
+| 0.9–0.95 | 0.15–0.25 | 0.23–0.36 |
+
+</div>
+<div class="text-xs opacity-80 leading-snug">
+
+- This is a real run on the actual RSDDs data, done as a full dry run of this
+  lab before class.
+- IoU rises smoothly as threshold increases, **peaks around 0.7–0.8**, then
+  drops off — the classic precision/recall trade-off from Part 1.
+- Retraining with `logistic_regression` or a bigger forest (300 trees,
+  max_depth=15) only moved Mean IoU to ~0.255 — tuning `threshold` mattered
+  far more here than model choice.
+
+</div>
+</div>
+
+---
+
+# Lab 2: Real Output Example
+
+<div class="text-center">
+<img src="/img/rail-eval-example.png" style="max-height:150px; margin:auto">
+</div>
+
+<div class="text-center mt-2">
+<img src="/img/rail-eval-threshold-curve-example.png" style="max-height:150px; margin:auto">
+</div>
+
+<div class="text-xs opacity-70 text-center mt-1">
+Actual output from this pipeline — the true/predicted overlay (top) and the
+threshold sweep curve (bottom) it saves after every <code>rail_evaluate.py</code> run.
+</div>
 
 ---
 layout: center

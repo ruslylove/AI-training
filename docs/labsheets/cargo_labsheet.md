@@ -153,9 +153,17 @@ Mean Absolute Error: 18.3 percentage points (lower is better)
 ```
 
 That number is your score: on average, how many percentage points off your
-model's guesses were. **Lower is better.** It also saves a picture,
-`results/figures/cargo_eval.png`, plotting your model's guesses against the
-true labels — dots closer to the diagonal line are better predictions.
+model's guesses were. **Lower is better.** It also saves two pictures:
+
+- `results/figures/cargo_eval.png` — every test photo side by side, sorted
+  from emptiest to fullest, each captioned with **actual vs. predicted**
+  fill % — green means the guess was close, orange means it was somewhat
+  off, red means it was way off. Look at the actual photos next to the
+  numbers; it's the fastest way to see whether your model's mistakes make
+  sense.
+- `results/figures/cargo_eval_scatter.png` — the classic predicted-vs-actual
+  scatter plot, for a quick read of overall accuracy across every test photo
+  at once (dots closer to the diagonal line = better).
 
 ## Part 5: Try to beat your own score (compete with classmates!)
 
@@ -177,6 +185,19 @@ Keep a scoreboard with your class:
 
 Whoever gets the lowest Mean Absolute Error wins — but also ask: did the
 person with the "best" model also label their photos the most carefully?
+
+## Part 6 (optional): Generate a shareable report
+
+Once you're happy with a run, turn it into a one-page PDF you can print or
+send to a classmate/instructor:
+
+```bash
+python3 scripts/cargo_report.py
+```
+
+This reads your latest results and saves `results/reports/cargo_report.pdf`
+— your settings, score, and both plots on a single page. Re-run it any time
+after Part 4 to capture your current best result.
 
 ## Glossary
 

@@ -113,10 +113,18 @@ Mean Dice: 0.38 (higher is better, 1.0 = perfect)
 defect area overlaps with the real defect area. 1.0 = perfect overlap, 0 =
 no overlap at all. This is your score — **higher is better**.
 
-It also saves a picture, `results/figures/rail_eval.png`, showing several
-test photos side by side: the original photo, the real defect map, and your
-model's guessed defect map. Look at it — this is the most useful way to
-understand what your model is actually doing.
+It also saves two pictures:
+
+- `results/figures/rail_eval.png` — several test photos side by side, each
+  with the true and predicted defect areas overlaid directly on the rail
+  photo in color — **yellow** = correctly caught, **green** = a real defect
+  the model missed, **red** = a false alarm — with that photo's own IoU
+  score labeled above it. Look at it — this is the most useful way to
+  understand what your model is actually doing.
+- `results/figures/rail_eval_threshold_curve.png` — Mean IoU and Mean Dice
+  swept automatically across every threshold from 0.05 to 0.95 for this
+  same trained model, with your current threshold marked. It's a preview of
+  the trade-off you'll explore by hand in Part 3.
 
 ## Part 3: Tune the threshold (this is the main "no retraining needed" lever)
 
@@ -161,6 +169,20 @@ Keep a scoreboard:
 | Your name | model_type | key settings | threshold | Mean IoU (higher = better) |
 |---|---|---|---|---|
 |   |   |   |   |   |
+
+## Part 5 (optional): Generate a shareable report
+
+Once you're happy with a run, turn it into a one-page PDF you can print or
+send to a classmate/instructor:
+
+```bash
+python3 scripts/rail_report.py
+```
+
+This reads your latest results and saves `results/reports/rail_report.pdf`
+— your settings, score, example predictions, and the threshold curve on a
+single page. Re-run it any time after Part 2 (or Part 3's threshold tweaks)
+to capture your current best result.
 
 ## Glossary
 

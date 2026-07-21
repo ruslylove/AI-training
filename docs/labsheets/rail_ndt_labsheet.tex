@@ -129,10 +129,20 @@ guessed defect area overlaps with the real defect area. 1.0 = perfect
 overlap, 0 = no overlap at all. This is your score -- \textbf{higher is
 better}.
 
-It also saves a picture, \texttt{results/figures/rail\_eval.png}, showing
-several test photos side by side: the original photo, the real defect map,
-and your model's guessed defect map. Look at it -- this is the most useful
-way to understand what your model is actually doing.
+It also saves two pictures:
+\begin{itemize}
+  \item \texttt{results/figures/rail\_eval.png} -- several test photos side
+  by side, each with the true and predicted defect areas overlaid directly
+  on the rail photo in color -- \textbf{yellow} = correctly caught,
+  \textbf{green} = a real defect the model missed, \textbf{red} = a false
+  alarm -- with that photo's own IoU score labeled above it. Look at it --
+  this is the most useful way to understand what your model is actually
+  doing.
+  \item \texttt{results/figures/rail\_eval\_threshold\_curve.png} -- Mean IoU
+  and Mean Dice swept automatically across every threshold from 0.05 to
+  0.95 for this same trained model, with your current threshold marked. It's
+  a preview of the trade-off you'll explore by hand in Part 3.
+\end{itemize}
 
 \section*{Part 3: Tune the threshold (the main lever -- no retraining needed)}
 Your model doesn't just say ``defect'' or ``not defect'' for each pixel --
@@ -192,6 +202,18 @@ Keep a scoreboard:
 \bottomrule
 \end{tabular}
 \end{center}
+
+\section*{Part 5 (optional): Generate a shareable report}
+Once you're happy with a run, turn it into a one-page PDF you can print or
+send to a classmate/instructor:
+\begin{lstlisting}
+python3 scripts/rail_report.py
+\end{lstlisting}
+This reads your latest results and saves
+\texttt{results/reports/rail\_report.pdf} -- your settings, score, example
+predictions, and the threshold curve on a single page. Re-run it any time
+after Part 2 (or Part 3's threshold tweaks) to capture your current best
+result.
 
 \section*{Glossary}
 \begin{itemize}

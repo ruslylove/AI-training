@@ -120,7 +120,8 @@ Full instructions: `docs/labsheets/cargo_labsheet.md`.
 3. Hand-label `fill_level` for each row in `manifest.csv` per `docs/LABELING_GUIDE.md`.
 4. Run `python3 scripts/make_splits.py` to fill in `fill_pct` and assign train/val/test splits.
 5. Edit `configs/cargo_config.yaml` (model type + hyperparameters, no code), then run `python3 scripts/cargo_train.py`.
-6. Run `python3 scripts/cargo_evaluate.py` to get a Mean Absolute Error score and a prediction-vs-actual plot.
+6. Run `python3 scripts/cargo_evaluate.py` to get a Mean Absolute Error score, a photo strip of predictions sorted by actual fill %, and a predicted-vs-actual scatter plot.
+7. (Optional) Run `python3 scripts/cargo_report.py` to bundle your settings, score, and both plots into a single `results/reports/cargo_report.pdf`.
 
 ### Workflow: Railway NDT defect detection
 
@@ -128,10 +129,11 @@ Full instructions: `docs/labsheets/rail_ndt_labsheet.md`.
 
 1. Run `python3 scripts/fetch_rsdds.py` to download and extract RSDDs into `datasets/raw/rail_ndt/rsdds/` (safe to re-run; skips archives already extracted).
 2. Edit `configs/rail_ndt_config.yaml` (model type + hyperparameters, no code), then run `python3 scripts/rail_train.py`.
-3. Run `python3 scripts/rail_evaluate.py` to get a mean IoU/Dice score and example predicted-mask images. Re-run this alone (no retraining) after changing just the `threshold` setting.
+3. Run `python3 scripts/rail_evaluate.py` to get a mean IoU/Dice score, example true/predicted defect overlays, and a threshold-vs-score sweep curve. Re-run this alone (no retraining) after changing just the `threshold` setting.
+4. (Optional) Run `python3 scripts/rail_report.py` to bundle your settings, score, and both plots into a single `results/reports/rail_report.pdf`.
 
 ### Both tracks
 
 - Trained models are saved to `models/checkpoints/` (`cargo_model.joblib`, `rail_model.joblib`).
-- Evaluation plots are saved to `results/figures/` and JSON reports to `results/reports/`.
+- Evaluation plots are saved to `results/figures/`, JSON reports to `results/reports/`, and (if you ran the report scripts) shareable one-page PDF reports alongside them.
 - Export final models to `models/exports/` for deployment (not covered by the current lab scripts).

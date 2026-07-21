@@ -175,10 +175,18 @@ Mean Absolute Error: 18.3 percentage points (lower is better)
 \end{lstlisting}
 
 That number is your score: on average, how many percentage points off your
-model's guesses were. \textbf{Lower is better.} It also saves a picture,
-\texttt{results/figures/cargo\_eval.png}, plotting your model's guesses
-against the true labels -- dots closer to the diagonal line are better
-predictions.
+model's guesses were. \textbf{Lower is better.} It also saves two pictures:
+\begin{itemize}
+  \item \texttt{results/figures/cargo\_eval.png} -- every test photo side by
+  side, sorted from emptiest to fullest, each captioned with \textbf{actual
+  vs. predicted} fill \% -- green means the guess was close, orange means it
+  was somewhat off, red means it was way off. Look at the actual photos next
+  to the numbers; it's the fastest way to see whether your model's mistakes
+  make sense.
+  \item \texttt{results/figures/cargo\_eval\_scatter.png} -- the classic
+  predicted-vs-actual scatter plot, for a quick read of overall accuracy
+  across every test photo at once (dots closer to the diagonal line = better).
+\end{itemize}
 
 \section*{Part 5: Try to beat your own score (compete with classmates!)}
 Go back to \texttt{configs/cargo\_config.yaml}, change one setting, then
@@ -206,6 +214,17 @@ Keep a scoreboard with your class:
 
 Whoever gets the lowest Mean Absolute Error wins -- but also ask: did the
 person with the ``best'' model also label their photos the most carefully?
+
+\section*{Part 6 (optional): Generate a shareable report}
+Once you're happy with a run, turn it into a one-page PDF you can print or
+send to a classmate/instructor:
+\begin{lstlisting}
+python3 scripts/cargo_report.py
+\end{lstlisting}
+This reads your latest results and saves
+\texttt{results/reports/cargo\_report.pdf} -- your settings, score, and both
+plots on a single page. Re-run it any time after Part 4 to capture your
+current best result.
 
 \section*{Glossary}
 \begin{itemize}
