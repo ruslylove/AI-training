@@ -87,8 +87,8 @@ Faculty of Engineering, KMUTNB
 </div>
 
 <div class="col-span-2 text-center">
-  <img src="/img/ruslee-lecture-live.jpg" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 250px; width: 100%; object-fit: cover;">
-  <div class="text-[11px] opacity-70 mt-2">Lecturing on Railway Signalling & AI</div>
+  <img src="/img/newcastle-isg-collage.png" class="rounded-xl shadow-lg border border-gray-500/20" style="max-height: 265px; width: 100%; object-fit: contain;">
+  <div class="text-[11px] opacity-75 mt-2 font-medium">Intelligent Sensing Group — Newcastle University (with Newcastle Landmarks)</div>
 </div>
 </div>
 
