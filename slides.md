@@ -7,6 +7,8 @@ info: |
   A module within "AI-Driven Transformation in Public Governance"
 
   Faculty of Engineering, KMUTNB
+
+  24 July 2026
 class: text-center text-white
 highlighter: shiki
 drawings:
@@ -18,6 +20,7 @@ program: AI-Driven Transformation in Public Governance
 module: AI Data Analytics for Transportation Sector
 organizer: Faculty of Engineering, KMUTNB
 cohort: Department of Rail Transport, Ministry of Transport
+presentationDate: 24 July 2026
 ---
 
 # {{ $slidev.configs.module }}
@@ -28,6 +31,10 @@ Presented by {{ $slidev.configs.presenterName }}
 
 <div class="pt-8 opacity-70">
 {{ $slidev.configs.organizer }} — for {{ $slidev.configs.cohort }}
+</div>
+
+<div class="pt-2 opacity-70">
+{{ $slidev.configs.presentationDate }}
 </div>
 
 <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
