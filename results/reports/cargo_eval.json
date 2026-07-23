@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-23T04:49:08.441742+00:00",
+  "timestamp": "2026-07-23T04:58:41.428920+00:00",
   "model_type": "random_forest",
   "config": {
     "model_type": "random_forest",
@@ -10,37 +10,37 @@
     "augment_per_image": 4
   },
   "n_test": 6,
-  "mae_percentage_points": 42.57734046651801,
+  "mae_percentage_points": 44.35269341720413,
   "predictions": [
     {
       "image_id": "66-0129_2026-06-10_front_010",
       "actual": 100.0,
-      "predicted": 4.7
+      "predicted": 13.1
     },
     {
       "image_id": "66-0129_2026-06-10_front_011",
       "actual": 25.0,
-      "predicted": 4.5
+      "predicted": 6.1
     },
     {
       "image_id": "66-0129_2026-06-10_front_015",
       "actual": 75.0,
-      "predicted": 76.0
+      "predicted": 72.5
     },
     {
       "image_id": "66-0129_2026-06-10_rear_010",
       "actual": 100.0,
-      "predicted": 22.7
+      "predicted": 40.8
     },
     {
       "image_id": "66-0129_2026-06-10_rear_011",
       "actual": 50.0,
-      "predicted": 0.2
+      "predicted": 0.4
     },
     {
       "image_id": "66-0129_2026-06-10_rear_015",
       "actual": 0.0,
-      "predicted": 11.6
+      "predicted": 49.0
     }
   ]
 }

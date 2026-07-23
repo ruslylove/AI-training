@@ -9,15 +9,22 @@ split (otherwise the model could be "tested" on a near-duplicate of a training
 image, which would make evaluation misleadingly optimistic).
 
 The dataset is small enough (~20 events) that a plain random split can easily
-leave `test` missing some fill_level values entirely, which makes the reported
-MAE misleading (it never got checked against, say, a 100%-full photo). So
-`test` is built first and deliberately, via a greedy set-cover: events are
-added to test (biggest new fill_pct coverage first, ties broken by a fixed
-shuffle) until every fill_pct value that appears anywhere in the manifest is
-represented in test. Remaining events fill `train` up to its normal target
-share; whatever's left over (often very few, if test's coverage requirement
-ate into the pool) becomes `val`. `val` is treated as the flex bucket here --
-it's the one allowed to shrink and/or end up with uneven fill_pct coverage.
+leave a split missing some fill_level values entirely, which makes results
+misleading -- a MAE never checked against a 100%-full photo, or a model that
+never trained on one. So splits are built deliberately, via greedy set-cover,
+applied twice:
+
+  1. `test` is built first: events are added (biggest new fill_pct coverage
+     first, ties broken by a fixed shuffle) until every fill_pct value that
+     appears anywhere in the manifest is represented in test.
+  2. `train` is built the same way from whatever events are left, but only
+     covering fill_pct values still available in that leftover pool (some
+     values may have been used up entirely by test's requirement above) --
+     capped at train's normal target share of events.
+
+Whatever's left over after both (often very few) becomes `val`. `val` is
+treated as the flex bucket here -- it's the one allowed to shrink and/or end
+up with uneven fill_pct coverage.
 """
 import csv
 import random
@@ -30,22 +37,23 @@ SPLIT_RATIOS = {"train": 0.7, "val": 0.15, "test": 0.15}
 SEED = 42
 
 
-def build_test_events(event_ids: list, event_pcts: dict) -> list:
-    """Greedily pick the fewest events needed for `test` to cover every
-    fill_pct value present anywhere in event_pcts, preferring events that
-    cover the most still-missing values at each step."""
-    all_pcts = set().union(*event_pcts.values()) if event_pcts else set()
-    pool = event_ids.copy()  # already shuffled by caller
+def greedy_cover(pool: list, event_pcts: dict, target_pcts: set, budget: int = None) -> tuple:
+    """Greedily pick events from `pool` (in its given order) to cover as much
+    of `target_pcts` as possible, preferring events that cover the most
+    still-missing values at each step. Stops once `target_pcts` is fully
+    covered, `budget` events have been picked (if given), or no remaining
+    event adds new coverage. Returns (chosen_events, leftover_pool)."""
+    pool = pool.copy()
     covered = set()
-    test_events = []
-    while covered != all_pcts and pool:
+    chosen = []
+    while covered != target_pcts and pool and (budget is None or len(chosen) < budget):
         best = max(pool, key=lambda e: len(event_pcts[e] - covered))
         if not (event_pcts[best] - covered):
             break  # no remaining event adds new coverage
-        test_events.append(best)
+        chosen.append(best)
         covered |= event_pcts[best]
         pool.remove(best)
-    return test_events
+    return chosen, pool
 
 
 def main():
@@ -77,14 +85,20 @@ def main():
     n = len(event_ids)
     event_pcts = {eid: {int(r["fill_pct"]) for r in evt_rows} for eid, evt_rows in events.items()}
 
-    test_events = build_test_events(event_ids, event_pcts)
+    all_pcts = set().union(*event_pcts.values()) if event_pcts else set()
+    test_events, remaining = greedy_cover(event_ids, event_pcts, all_pcts)
     split_for_event = {eid: "test" for eid in test_events}
 
-    remaining = [eid for eid in event_ids if eid not in split_for_event]
     n_train = min(round(n * SPLIT_RATIOS["train"]), len(remaining))
-    for eid in remaining[:n_train]:
+    remaining_pcts = set().union(*(event_pcts[e] for e in remaining)) if remaining else set()
+    train_priority, remaining = greedy_cover(remaining, event_pcts, remaining_pcts, budget=n_train)
+    for eid in train_priority:
         split_for_event[eid] = "train"
-    for eid in remaining[n_train:]:
+
+    n_train_left = n_train - len(train_priority)
+    for eid in remaining[:n_train_left]:
+        split_for_event[eid] = "train"
+    for eid in remaining[n_train_left:]:
         split_for_event[eid] = "val"
 
     for r in rows:
