@@ -1202,6 +1202,48 @@ Actual output from this pipeline's default settings — the photo strip (top) an
 </div>
 
 ---
+
+# Lab 1 (optional): Give Your Model More Photos
+
+With only ~30 labeled training photos, the model has very little variety to
+learn from. **Data augmentation** makes each one do double duty: save a few
+randomly altered copies — flipped, slightly rotated, brightness/contrast
+jittered — and add them as extra training examples.
+
+```yaml
+augment_per_image: 4   # in cargo_config.yaml, 0 = disabled
+```
+
+```bash
+python3 scripts/cargo_augment.py
+```
+
+<div class="grid grid-cols-2 gap-4 mt-4 text-sm">
+<div class="p-2.5 rounded-lg bg-gray-500/10 border border-gray-500/20">
+
+**What it touches**
+
+- Only `train` rows get altered copies
+- `val`/`test` stay real, untouched — scoring is never inflated
+- Set back to `0` and re-run to remove the copies again
+
+</div>
+<div class="p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/30">
+
+**Discuss**
+
+More *views* of the same handful of real moments ≠ genuinely new
+information. Does this change what the model would need to generalize
+beyond one truck on one day?
+
+</div>
+</div>
+
+<div class="mt-3 text-xs opacity-70">
+Re-run Part 3 + Part 4 afterward and compare MAE to before — labsheet Part 5.5.
+</div>
+
+---
 layout: center
 class: text-center
 ---

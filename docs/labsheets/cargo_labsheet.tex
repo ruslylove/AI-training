@@ -215,6 +215,36 @@ Keep a scoreboard with your class:
 Whoever gets the lowest Mean Absolute Error wins -- but also ask: did the
 person with the ``best'' model also label their photos the most carefully?
 
+\section*{Part 5.5 (optional): Give your model more photos to learn from}
+We only have \raise0pt\hbox{$\sim$}30 labeled training photos -- not much for
+a model to learn from. Instead of labeling more real photos, you can make
+the training set bigger by generating altered copies of the ones you already
+have (flipped, slightly rotated, brightness/contrast tweaked). This is a
+common trick in real AI projects called \textbf{data augmentation}.
+
+\begin{enumerate}
+  \item Open \texttt{configs/cargo\_config.yaml} and set \texttt{augment\_per\_image} to a number greater than 0 (e.g. \texttt{4}).
+  \item Run:
+\begin{lstlisting}
+python3 scripts/cargo_augment.py
+\end{lstlisting}
+  This saves altered copies under \texttt{datasets/processed/images\_augmented/} and adds them to \texttt{manifest.csv} as extra \texttt{train} rows (your \texttt{val}/\texttt{test} photos are never touched, so scoring always happens on real photos).
+  \item Re-run Part 3 and Part 4 (\texttt{cargo\_train.py}, then \texttt{cargo\_evaluate.py}) and compare your MAE to before. Does it help, hurt, or barely change?
+\end{enumerate}
+
+Set \texttt{augment\_per\_image} back to \texttt{0} and re-run
+\texttt{cargo\_augment.py} to remove the generated copies and restore
+\texttt{manifest.csv} before you re-label photos or re-run
+\texttt{make\_splits.py}.
+
+\begin{notebox}
+Augmentation gives the model more \emph{views} of the same handful of real
+moments, not genuinely new information (a flipped photo of the same pile
+isn't a different truck, day, or lighting condition). Does more augmented
+data change your answer to the earlier question about what this model would
+need to generalize beyond one truck on one day?
+\end{notebox}
+
 \section*{Part 6 (optional): Generate a shareable report}
 Once you're happy with a run, turn it into a one-page PDF you can print or
 send to a classmate/instructor:
