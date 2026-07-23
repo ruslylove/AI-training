@@ -186,6 +186,38 @@ Keep a scoreboard with your class:
 Whoever gets the lowest Mean Absolute Error wins — but also ask: did the
 person with the "best" model also label their photos the most carefully?
 
+## Part 5.5 (optional): Give your model more photos to learn from
+
+We only have ~30 labeled training photos — not much for a model to learn
+from. Instead of labeling more real photos, you can make the training set
+bigger by generating altered copies of the ones you already have (flipped,
+slightly rotated, brightness/contrast tweaked). This is a common trick in
+real AI projects called **data augmentation**.
+
+1. Open `configs/cargo_config.yaml` and set `augment_per_image` to a number
+   greater than 0 (e.g. `4`).
+2. Run:
+
+   ```bash
+   python3 scripts/cargo_augment.py
+   ```
+
+   This saves altered copies under `datasets/processed/images_augmented/`
+   and adds them to `manifest.csv` as extra `train` rows (your `val`/`test`
+   photos are never touched, so scoring always happens on real photos).
+3. Re-run Part 3 and Part 4 (`cargo_train.py`, then `cargo_evaluate.py`) and
+   compare your MAE to before. Does it help, hurt, or barely change?
+
+Set `augment_per_image` back to `0` and re-run `cargo_augment.py` to remove
+the generated copies and restore `manifest.csv` before you re-label photos
+or re-run `make_splits.py`.
+
+**Something to think about:** augmentation gives the model more *views* of
+the same handful of real moments, not genuinely new information (a flipped
+photo of the same pile isn't a different truck, day, or lighting condition).
+Does more augmented data change your answer to the earlier question about
+what this model would need to generalize beyond one truck on one day?
+
 ## Part 6 (optional): Generate a shareable report
 
 Once you're happy with a run, turn it into a one-page PDF you can print or

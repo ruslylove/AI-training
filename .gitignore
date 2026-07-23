@@ -22,12 +22,15 @@ env/
 *.tflite
 *.safetensors
 
-# Datasets (large files - keep raw/processed/splits out of git)
+# Datasets (large files - keep raw/processed/splits out of git, except the
+# augmented training set + manifest, which are tracked deliberately)
 datasets/raw/*
 datasets/processed/*
 datasets/splits/*
 !datasets/raw/.gitkeep
 !datasets/processed/.gitkeep
+!datasets/processed/manifest.csv
+!datasets/processed/images_augmented/
 !datasets/splits/.gitkeep
 *.zip
 *.tar

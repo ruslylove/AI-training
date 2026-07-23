@@ -20,3 +20,12 @@ n_neighbors: 5
 # get used, tie-breaking, etc). Changing it can change your score slightly
 # even with the same settings -- try a couple of values and see.
 random_seed: 42
+
+# --- optional: expand the training set (Part 5.5, run scripts/cargo_augment.py) ---
+# How many extra, altered copies to generate per labeled TRAINING photo (val
+# and test photos are never altered). Each copy gets a random mix of a
+# horizontal flip, a small rotation, and a brightness/contrast tweak -- the
+# same photo, seen slightly differently, so the model gets more variety
+# without anyone labeling anything new. 0 disables it (and removes copies
+# from a previous run).
+augment_per_image: 4
