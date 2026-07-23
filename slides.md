@@ -19,7 +19,7 @@ presenterName: Asst. Prof. Dr. Ruslee Sutthaweekul
 program: AI-Driven Transformation in Public Governance
 module: AI Data Analytics for Transportation Sector
 organizer: Faculty of Engineering, KMUTNB
-cohort: Department of Rail Transport, Ministry of Transport
+cohort: Ministry of Transport Scholarship Students
 presentationDate: 24 July 2026
 ---
 
@@ -164,6 +164,7 @@ Faculty of Engineering, KMUTNB
   <img src="/img/ruslee-ieee-award.jpg" class="rounded-lg shadow border border-gray-500/20" style="height:145px; width:100%; object-fit:cover;">
   <div class="text-xs font-bold mt-2">IEEE Sensors Award</div>
   <div class="text-[11px] opacity-75">2nd Place Student Contest, Glasgow, UK</div>
+  <a href="https://www.youtube.com/watch?v=e2A9Jfn78JU" target="_blank" class="text-[10px] text-blue-600 dark:text-blue-400 hover:underline">▶ Watch: Sounnatic 1.0 demo</a>
 </div>
 
 <div>

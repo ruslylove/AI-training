@@ -28,6 +28,22 @@ cd docs/labsheets
 pdflatex cargo_labsheet.tex && pdflatex cargo_labsheet.tex   # run twice
 ```
 
+**Thai versions** (`_th` suffix) — full Thai translations of both labsheets,
+for the KMUTNB cohort below. Code, filenames, commands and YAML settings are
+left in English (they're literal, not prose); everything else is translated.
+They use a separate style (`labsheet_common_th.sty`) built for **XeLaTeX**
+with a bundled Thai font (`docs/labsheets/fonts/Sarabun-*.ttf`, SIL OFL —
+see `fonts/OFL.txt`) since plain `pdflatex` can't render Thai script:
+- `docs/labsheets/cargo_labsheet_th.md` / `docs/labsheets/cargo_labsheet_th.pdf`
+- `docs/labsheets/rail_ndt_labsheet_th.md` / `docs/labsheets/rail_ndt_labsheet_th.pdf`
+
+To rebuild a Thai PDF after editing its `.tex` source (note `xelatex`, not
+`pdflatex`):
+```bash
+cd docs/labsheets
+xelatex cargo_labsheet_th.tex && xelatex cargo_labsheet_th.tex   # run twice
+```
+
 Both labs are "no code": all training/evaluation scripts are already
 written. Students only hand-label data and/or edit a plain-text
 `configs/*.yaml` settings file, then run the provided scripts.
@@ -35,7 +51,8 @@ written. Students only hand-label data and/or edit a plain-text
 **Slides** (`slides.md`) — a full session deck for the "AI Data Analytics
 for Transportation Sector" module within the *AI-Driven Transformation in
 Public Governance* program (Faculty of Engineering, KMUTNB, for Ministry of
-Transport / Department of Rail Transport civil servants). Includes a ~60
+Transport scholarship students spanning multiple departments, not just rail).
+Includes a ~60
 minute AI & NDT fundamentals lecture (Part 1) before the two hands-on labs
 (Parts 2–3), with real sample photos from both datasets embedded. Built with
 [Slidev](https://sli.dev/), theme `seriph`, branding via `global-top.vue` /
@@ -48,6 +65,17 @@ pnpm run export            # -> slides-export.pdf (uses --per-slide, required
                             # for correct page numbers with global components)
 ```
 Slide images live in `public/img/` (referenced as `/img/...` in `slides.md`).
+
+**Thai version** (`slides.th.md`) — full Thai translation of the deck, same
+structure/layout/images, for the KMUTNB cohort above. Code blocks, YAML
+settings and file/script names are left in English. Uses the bundled
+`Sarabun` web font (declared via `fonts:` in its frontmatter) for correct
+Thai rendering. Build/export the same way, just point at the Thai file
+explicitly (the `pnpm run *` scripts above default to `slides.md`):
+```bash
+pnpm exec slidev build slides.th.md
+pnpm exec slidev export slides.th.md --output slides-th-export.pdf --per-slide
+```
 
 ## Folder Structure
 

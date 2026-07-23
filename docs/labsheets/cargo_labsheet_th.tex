@@ -1,0 +1,276 @@
+\documentclass[11pt]{article}
+\usepackage{labsheet_common_th}
+
+\title{}
+\date{}
+
+\begin{document}
+\thispagestyle{fancy}
+
+\labtitle{AI Training -- บทปฏิบัติการที่ 1}{ประเมินพื้นที่ว่างในตู้บรรทุกด้วย AI}{แนะนำการติดป้ายกำกับข้อมูลและการฝึกโมเดลแมชชีนเลิร์นนิงแบบลงมือทำจริง}
+\nocodebadge
+
+คุณจะทำตามขั้นตอนแบบคัดลอก-วางในเทอร์มินัล แก้ไขไฟล์ตั้งค่าแบบข้อความล้วนเพียงไฟล์เดียว
+และติดป้ายกำกับรูปภาพด้วยสายตา เท่านั้นเอง -- โค้ด AI ทั้งหมดมีคนเขียนไว้ให้เรียบร้อยแล้ว
+
+\section*{สิ่งที่คุณจะได้เรียนรู้}
+\begin{itemize}
+  \item เหตุใด AI จึงต้องการตัวอย่างที่ ``ติดป้ายกำกับ'' ก่อนจึงจะเรียนรู้อะไรได้
+  \item การติดป้ายกำกับของคุณส่งผลโดยตรงต่อคุณภาพของ AI ที่ได้
+  \item การเปลี่ยนค่าตั้งค่าเพียงไม่กี่ค่า (โดยไม่ต้องเขียนโปรแกรม) ส่งผลต่อความแม่นยำของโมเดลอย่างไร
+  \item วิธีอ่านค่าความแม่นยำแบบง่าย ๆ และเปรียบเทียบกับเพื่อนร่วมชั้น
+\end{itemize}
+
+\section*{ภาพรวมของงาน}
+เรามีภาพถ่ายจากกล้องสองตัวที่ติดตั้งอยู่ภายในตู้บรรทุกของรถขนส่ง (ตัวหนึ่งอยู่ใกล้ด้านหน้า
+อีกตัวอยู่ใกล้ด้านท้าย) เมื่อมีการขนสินค้าขึ้นรถตลอดวัน กองกล่องสินค้าก็จะสูงขึ้นเรื่อย ๆ
+เป้าหมายของคุณคือ สร้างโมเดล AI ที่ดูภาพใหม่หนึ่งภาพแล้วทายว่า \textbf{พื้นที่ตู้บรรทุกถูกใช้ไปกี่เปอร์เซ็นต์}
+(0\% = ว่างเปล่า, 100\% = เต็มพื้นที่ทั้งหมด)
+
+\begin{notebox}
+ไม่เคยมีใครบันทึก ``เปอร์เซ็นต์ความเต็ม'' ที่ถูกต้องของภาพเหล่านี้ไว้มาก่อน -- เพราะไม่มีวิธีวัด
+ค่านี้โดยอัตโนมัติ ดังนั้นก่อนที่ AI จะเรียนรู้ได้ \emph{มนุษย์} ต้องดูแต่ละภาพแล้วประเมินค่าด้วย
+ตัวเอง นั่นคืองานของคุณใน Part 1 ซึ่งเป็นเรื่องปกติในโปรเจกต์ AI จริง ๆ: ความพยายามส่วนใหญ่
+ทุ่มเทไปกับการเตรียมข้อมูลที่ดี ไม่ใช่การเขียนโค้ด
+\end{notebox}
+
+\section*{สิ่งที่เตรียมไว้ให้คุณแล้ว}
+\begin{itemize}
+  \item ภาพถ่าย 42 ภาพ (กล้องหน้า 21 ภาพ + กล้องหลัง 21 ภาพ) ถูกจัดเรียงไว้ใน \path|datasets/processed/images/| แล้ว
+  \item ไฟล์คล้ายสเปรดชีต ชื่อ \texttt{datasets/processed/manifest.csv} แสดงรายการภาพทั้งหมดพร้อมคอลัมน์ว่างที่รอให้คุณติดป้ายกำกับ
+  \item โค้ด AI ทั้งหมด -- การสกัดฟีเจอร์, การฝึกโมเดล, การให้คะแนน, การพล็อตกราฟ -- ถูกเขียนไว้แล้วใน \texttt{scripts/} คุณมีหน้าที่แค่ \emph{รัน} เท่านั้น ไม่ต้องแก้ไข
+  \item ไฟล์เดียวที่คุณจะแก้ไขคือ \texttt{configs/cargo\_config.yaml} ซึ่งเป็นไฟล์ตั้งค่าแบบข้อความล้วน (ไม่ใช่โค้ด)
+\end{itemize}
+
+\section*{ภาพรวมขั้นตอนการทำงานทั้งหมด}
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=6mm]
+  \node[autobox] (raw) {ภาพถ่ายในตู้บรรทุกดิบ};
+  \node[autobox, right=of raw] (organize) {จัดเรียงภาพ\\\texttt{organize\_\allowbreak dataset.py}};
+  \node[actionbox, right=of organize] (label) {ติดป้ายกำกับ\\\texttt{fill\_level}};
+  \node[autobox, right=of label] (split) {แบ่งชุด train/\allowbreak val/test\\\texttt{make\_\allowbreak splits.py}};
+
+  \node[actionbox, below=15mm of split] (config) {แก้ไข\\\texttt{cargo\_\allowbreak config.yaml}};
+  \node[autobox, left=of config] (train) {ฝึกโมเดล\\\texttt{cargo\_\allowbreak train.py}};
+  \node[autobox, left=of train] (evaluate) {ประเมินโมเดล\\\texttt{cargo\_\allowbreak evaluate.py}};
+  \node[scorebox, left=of evaluate] (score) {คะแนนของคุณ:\\Mean Absolute Error};
+
+  \draw[flowarrow] (raw) -- (organize);
+  \draw[flowarrow] (organize) -- (label);
+  \draw[flowarrow] (label) -- (split);
+  \draw[flowarrow] (split) -- (config);
+  \draw[flowarrow] (config) -- (train);
+  \draw[flowarrow] (train) -- (evaluate);
+  \draw[flowarrow] (evaluate) -- (score);
+
+  \draw[loopA] (score.south) to[out=-55, in=-125, looseness=0.9]
+    node[looplabel, midway, below=1mm] {ลองเปลี่ยนค่าตั้งค่า (Part 5)} (config.south);
+\end{tikzpicture}%
+}
+\end{center}
+\diagramlegend
+
+แถวบนเกิดขึ้นเพียงครั้งเดียว (จัดเรียงภาพ แล้วติดป้ายกำกับ) ส่วนแถวล่างคือส่วนที่คุณจะทำซ้ำ
+ไปเรื่อย ๆ ใน Part 5 เพื่อพยายามทำคะแนนให้ต่ำที่สุดเท่าที่จะทำได้
+
+\section*{Part 0: ตั้งค่าเริ่มต้น (ทำครั้งเดียว)}
+เปิดเทอร์มินัล (บน Mac: แอป \textbf{Terminal}; บน Windows: \textbf{Anaconda Prompt} หรือ
+\textbf{PowerShell}) แล้วรันคำสั่งต่อไปนี้ทีละบรรทัด คัดลอกแต่ละบรรทัดให้ตรงเป๊ะ กด Enter
+แล้วรอให้ทำงานเสร็จก่อนค่อยไปบรรทัดถัดไป
+
+\begin{lstlisting}
+cd AI-training
+python3 -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+\end{lstlisting}
+
+หากคำสั่งสุดท้ายทำงานเสร็จโดยไม่มีข้อความ error สีแดง แสดงว่าคุณพร้อมแล้ว Part 0 นี้ทำเพียง
+ครั้งเดียวก็พอ (แต่ต้องรันบรรทัด \texttt{source .venv/bin/activate} ใหม่ทุกครั้งที่เปิดหน้าต่าง
+เทอร์มินัลใหม่)
+
+\section*{Part 1: ติดป้ายกำกับภาพ (นี่คืองานหลัก)}
+\begin{enumerate}
+  \item เปิดไฟล์ \texttt{datasets/processed/manifest.csv} ด้วย Excel, Numbers หรือ Google Sheets
+  \item สำหรับแต่ละแถว ให้เปิดภาพที่แถวนั้นชี้ไปหา (คอลัมน์ \texttt{filepath} ภายใน \texttt{datasets/processed/}) แล้วตัดสินใจว่าตู้บรรทุกดูเต็มแค่ไหน โดยใช้มาตราส่วนนี้:
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{คำที่คุณพิมพ์ในคอลัมน์ \texttt{fill\_level}} & \textbf{ความหมาย} \\
+\midrule
+\texttt{empty}  & มองเห็นพื้นเต็มพื้นที่ แทบไม่มีสินค้าเลย \\
+\texttt{low}    & มีกล่อง/ถุงบ้าง แต่ยังมองเห็นพื้นเป็นส่วนใหญ่ \\
+\texttt{medium} & สินค้าปกคลุมพื้นที่ประมาณครึ่งหนึ่ง / กองสูงระดับเอว \\
+\texttt{high}   & สินค้าเต็มพื้นที่ที่มองเห็นเกือบทั้งหมด กองสูงเกินระดับเอวมาก \\
+\texttt{full}   & สินค้าเต็มเฟรมภาพจากขอบถึงขอบ ไม่มีพื้นที่ว่างให้เห็นเลย \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[resume]
+  \item พิมพ์หนึ่งในห้าคำนี้ลงในคอลัมน์ \texttt{fill\_level} ให้ครบ \textbf{ทุกแถว} แล้วบันทึกไฟล์เป็น CSV (ใช้ชื่อไฟล์ \texttt{manifest.csv} เหมือนเดิม)
+\end{enumerate}
+
+รายละเอียดและเคล็ดลับเพิ่มเติมอยู่ใน \texttt{docs/LABELING\_GUIDE.md} -- อ่านก่อนเริ่มงานหาก
+มีจุดใดที่ยังไม่ชัดเจน
+
+\begin{tipbox}
+โมเดลของคุณจะดีได้มากที่สุดเท่ากับคุณภาพของป้ายกำกับที่คุณให้เท่านั้น หากติดป้ายกำกับแบบ
+ไม่ใส่ใจ AI ของคุณก็จะเรียนรู้บทเรียนที่ผิด -- เหมือนกับการสอนคนโดยใช้เฉลยที่ผิด
+\end{tipbox}
+
+\section*{Part 2: แบ่งข้อมูล}
+AI ต้องฝึกฝนกับภาพบางส่วน (``training'') แล้วจึงถูกทดสอบกับภาพที่ไม่เคยเห็นมาก่อน
+(``testing'') -- ไม่เช่นนั้นมันอาจแค่จำคำตอบไว้แทนที่จะเรียนรู้จริง ๆ รันคำสั่ง:
+
+\begin{lstlisting}
+python3 scripts/make_splits.py
+\end{lstlisting}
+
+คำสั่งนี้จะจัดกลุ่มภาพที่คุณติดป้ายกำกับแล้วเป็นชุด training/validation/test โดยอัตโนมัติ
+และเติมตัวเลข \texttt{fill\_pct} ให้แต่ละป้ายกำกับ (เช่น \texttt{medium} $\rightarrow$ 50)
+หากมันแสดงข้อความ error เกี่ยวกับป้ายกำกับที่ขาดหาย ให้กลับไปทำ Part 1 -- ทุกแถวต้องมีค่า
+\texttt{fill\_level} ก่อนขั้นตอนนี้จะทำงานได้
+
+\section*{Part 3: ฝึกโมเดลของคุณ}
+เปิดไฟล์ \texttt{configs/cargo\_config.yaml} ด้วยโปรแกรมแก้ไขข้อความล้วนใด ๆ (Notepad,
+TextEdit, VS Code -- อะไรก็ได้ที่ไม่ใช่ Word) คุณจะเห็นค่าตั้งค่าแบบนี้:
+
+\begin{lstlisting}
+model_type: random_forest
+n_estimators: 100
+max_depth: 5
+random_seed: 42
+\end{lstlisting}
+
+คุณไม่จำเป็นต้องเข้าใจคณิตศาสตร์เบื้องหลัง AI -- แค่ลองเปลี่ยนค่าต่าง ๆ ดู (ดูอภิธานศัพท์
+ด้านล่างว่าแต่ละค่าหมายถึงอะไรในภาษาที่เข้าใจง่าย) จากนั้นรัน:
+
+\begin{lstlisting}
+python3 scripts/cargo_train.py
+\end{lstlisting}
+
+คำสั่งนี้จะฝึกโมเดลโดยใช้ค่าตั้งค่าปัจจุบันของคุณแล้วบันทึกไว้ ใช้เวลาเพียงไม่กี่วินาที
+
+\section*{Part 4: ประเมินโมเดลของคุณ}
+\begin{lstlisting}
+python3 scripts/cargo_evaluate.py
+\end{lstlisting}
+
+คำสั่งนี้จะทดสอบโมเดลของคุณกับภาพที่ไม่เคยใช้ฝึกมาก่อน แล้วแสดงผลลัพธ์ประมาณนี้:
+
+\begin{lstlisting}
+Mean Absolute Error: 18.3 percentage points (lower is better)
+\end{lstlisting}
+
+ตัวเลขนี้คือคะแนนของคุณ: โดยเฉลี่ยแล้วการทายของโมเดลคลาดเคลื่อนไปกี่จุดเปอร์เซ็นต์
+\textbf{ยิ่งน้อยยิ่งดี} นอกจากนี้ยังบันทึกภาพสองภาพไว้ด้วย:
+\begin{itemize}
+  \item \texttt{results/figures/cargo\_eval.png} -- ภาพทดสอบทุกภาพเรียงกัน จากว่างที่สุดไป
+  เต็มที่สุด แต่ละภาพมีคำบรรยายกำกับ \textbf{ค่าจริงเทียบกับค่าที่ทาย} -- สีเขียวแปลว่าทาย
+  ใกล้เคียง สีส้มแปลว่าคลาดเคลื่อนพอสมควร สีแดงแปลว่าคลาดเคลื่อนมาก ลองดูภาพจริงควบคู่กับ
+  ตัวเลข เป็นวิธีที่เร็วที่สุดในการดูว่าความผิดพลาดของโมเดลสมเหตุสมผลหรือไม่
+  \item \texttt{results/figures/cargo\_eval\_scatter.png} -- กราฟกระจายแบบคลาสสิกระหว่างค่า
+  ที่ทายกับค่าจริง ใช้ดูความแม่นยำโดยรวมของทุกภาพทดสอบได้อย่างรวดเร็ว (จุดยิ่งใกล้เส้นทแยงมุม
+  = ยิ่งดี)
+\end{itemize}
+
+\section*{Part 5: ลองเอาชนะคะแนนของตัวเอง (แข่งกับเพื่อนร่วมชั้น!)}
+กลับไปที่ \texttt{configs/cargo\_config.yaml} เปลี่ยนค่าตั้งค่าหนึ่งค่า แล้วรัน Part 3 และ
+Part 4 ใหม่อีกครั้ง ลองทำสิ่งต่อไปนี้:
+\begin{itemize}
+  \item สลับ \texttt{model\_type} ระหว่าง \texttt{random\_forest}, \texttt{knn} และ \texttt{linear\_regression}
+  \item สำหรับ \texttt{random\_forest}: ลองเปลี่ยน \texttt{n\_estimators} (เช่น 20 เทียบกับ 100 เทียบกับ 300) หรือ \texttt{max\_depth} (เช่น 2 เทียบกับ 5 เทียบกับ 15)
+  \item สำหรับ \texttt{knn}: ลองเปลี่ยน \texttt{n\_neighbors} (เช่น 1, 3, 10)
+  \item เปลี่ยน \texttt{random\_seed} เป็นตัวเลขอื่น
+\end{itemize}
+
+จดบันทึกคะแนนไว้เปรียบเทียบกับเพื่อนร่วมชั้น:
+
+\begin{center}
+\begin{tabular}{@{}*{4}{>{\raggedright\arraybackslash}p{3.2cm}}@{}}
+\toprule
+\textbf{ชื่อของคุณ} & \textbf{model\_type} & \textbf{ค่าตั้งค่าหลัก} & \textbf{MAE (ยิ่งน้อยยิ่งดี)} \\
+\midrule
+ & & & \\[10pt]
+ & & & \\[10pt]
+ & & & \\[10pt]
+\bottomrule
+\end{tabular}
+\end{center}
+
+ใครทำ Mean Absolute Error ได้ต่ำที่สุดเป็นผู้ชนะ -- แต่ลองถามด้วยว่า คนที่ได้โมเดล ``ดีที่สุด''
+ติดป้ายกำกับภาพได้ละเอียดรอบคอบที่สุดด้วยหรือเปล่า
+
+\section*{Part 5.5 (ทางเลือกเพิ่มเติม): เพิ่มจำนวนภาพให้โมเดลเรียนรู้}
+เรามีภาพฝึกที่ติดป้ายกำกับแล้วเพียง \raise0pt\hbox{$\sim$}30 ภาพเท่านั้น -- ไม่มากพอให้โมเดล
+เรียนรู้ได้ดีนัก แทนที่จะติดป้ายกำกับภาพจริงเพิ่ม คุณสามารถขยายชุดข้อมูลฝึกให้ใหญ่ขึ้นได้ด้วย
+การสร้างสำเนาที่ดัดแปลงจากภาพที่มีอยู่แล้ว (พลิกภาพ, หมุนเล็กน้อย, ปรับความสว่าง/คอนทราสต์)
+เทคนิคนี้เรียกว่า \textbf{การเสริมข้อมูล (data augmentation)} ซึ่งเป็นเทคนิคที่ใช้กันทั่วไปใน
+โปรเจกต์ AI จริง
+
+\begin{enumerate}
+  \item เปิด \texttt{configs/cargo\_config.yaml} แล้วตั้งค่า \texttt{augment\_per\_image} เป็นตัวเลขที่มากกว่า 0 (เช่น \texttt{4})
+  \item รัน:
+\begin{lstlisting}
+python3 scripts/cargo_augment.py
+\end{lstlisting}
+  คำสั่งนี้จะบันทึกสำเนาที่ดัดแปลงไว้ใน \texttt{datasets/processed/images\_augmented/} และเพิ่มเข้าไปใน \texttt{manifest.csv} เป็นแถว \texttt{train} เพิ่มเติม (ภาพในชุด \texttt{val}/\texttt{test} ของคุณจะไม่ถูกแตะต้อง ดังนั้นการให้คะแนนจะใช้ภาพจริงเสมอ)
+  \item รัน Part 3 และ Part 4 ใหม่ (\texttt{cargo\_train.py} แล้วตามด้วย \texttt{cargo\_evaluate.py}) แล้วเปรียบเทียบค่า MAE กับก่อนหน้านี้ ผลลัพธ์ดีขึ้น แย่ลง หรือแทบไม่เปลี่ยนแปลง?
+\end{enumerate}
+
+ตั้งค่า \texttt{augment\_per\_image} กลับเป็น \texttt{0} แล้วรัน \texttt{cargo\_augment.py}
+ใหม่อีกครั้งเพื่อลบสำเนาที่สร้างขึ้นและคืนค่า \texttt{manifest.csv} ให้เหมือนเดิม ก่อนที่คุณจะ
+ติดป้ายกำกับภาพใหม่หรือรัน \texttt{make\_splits.py} ใหม่
+
+\begin{notebox}
+การเสริมข้อมูลให้ \emph{มุมมอง} เพิ่มเติมของช่วงเวลาจริงชุดเดิมเพียงไม่กี่ช่วง ไม่ใช่ข้อมูลใหม่
+จริง ๆ (ภาพที่พลิกกลับของกองสินค้าเดิม ไม่ใช่รถบรรทุก วัน หรือสภาพแสงที่ต่างออกไป) ข้อมูลที่
+เสริมเข้ามามากขึ้นเปลี่ยนคำตอบของคุณต่อคำถามก่อนหน้านี้หรือไม่ ว่าโมเดลนี้ต้องการอะไรเพิ่มเติม
+จึงจะใช้งานได้ดีกับรถบรรทุกคันอื่นหรือวันอื่นที่ไม่ใช่คันนี้/วันนี้
+\end{notebox}
+
+\section*{Part 6 (ทางเลือกเพิ่มเติม): สร้างรายงานที่แชร์ได้}
+เมื่อคุณพอใจกับผลลัพธ์ที่ได้แล้ว ให้แปลงเป็นไฟล์ PDF หน้าเดียวที่พิมพ์หรือส่งให้เพื่อนร่วมชั้น/
+วิทยากรได้:
+\begin{lstlisting}
+python3 scripts/cargo_report.py
+\end{lstlisting}
+คำสั่งนี้จะอ่านผลลัพธ์ล่าสุดของคุณแล้วบันทึกเป็น
+\texttt{results/reports/cargo\_report.pdf} -- รวมค่าตั้งค่า คะแนน และกราฟทั้งสองไว้ในหน้า
+เดียว รันซ้ำได้ทุกเมื่อหลัง Part 4 เพื่อบันทึกผลลัพธ์ที่ดีที่สุดของคุณในปัจจุบัน
+
+\section*{อภิธานศัพท์}
+\begin{itemize}
+  \item \textbf{Model (โมเดล)} -- ``สูตร'' ของ AI ที่แปลงภาพให้กลายเป็นค่าทายเปอร์เซ็นต์ความเต็ม การฝึก (training) คือการสร้างโมเดล ส่วนการประเมิน (evaluating) คือการทดสอบโมเดล
+  \item \textbf{Training set (ชุดข้อมูลฝึก)} -- ภาพที่อนุญาตให้โมเดลเรียนรู้จาก
+  \item \textbf{Test set (ชุดข้อมูลทดสอบ)} -- ภาพที่กันไว้ต่างหาก เพื่อให้เราตรวจสอบได้อย่างตรงไปตรงมาว่าโมเดลทำงานได้ดีแค่ไหนกับภาพที่ไม่เคยเห็นมาก่อน
+  \item \textbf{Hyperparameter} -- ค่าตั้งค่าที่คุณเลือกก่อนการฝึก (เช่น \texttt{n\_estimators}) ตรงข้ามกับสิ่งที่โมเดลเรียนรู้ได้เอง
+  \item \textbf{Random Forest} -- โมเดลที่ประกอบด้วย ``ต้นไม้ตัดสินใจ'' แบบง่าย ๆ จำนวนมาก แต่ละต้นออกเสียงโหวตคำตอบ แล้วนำผลโหวตมาเฉลี่ยกัน \texttt{n\_estimators} = จำนวนต้นไม้, \texttt{max\_depth} = จำนวนคำถามแบบใช่/ไม่ใช่ที่แต่ละต้นถามได้
+  \item \textbf{KNN (k-nearest neighbors)} -- โมเดลที่หาภาพฝึก \texttt{n\_neighbors} ภาพที่คล้ายคลึงที่สุดในเชิงภาพถ่าย แล้วนำเปอร์เซ็นต์ความเต็มของภาพเหล่านั้นมาเฉลี่ยกัน
+  \item \textbf{Linear Regression} -- โมเดลที่ง่ายที่สุด: ปรับความสัมพันธ์แบบเส้นตรงระหว่างฟีเจอร์ของภาพกับเปอร์เซ็นต์ความเต็ม
+  \item \textbf{Overfitting} -- เมื่อโมเดลจดจำรายละเอียดปลีกย่อยของภาพฝึกแทนที่จะเรียนรู้รูปแบบโดยรวม ทำให้ทำคะแนนได้ดีมากกับข้อมูลฝึก แต่ทำได้ไม่ดีกับภาพใหม่ สาเหตุที่พบบ่อยคือต้นไม้ที่ลึกเกินไปหรือจำนวนเพื่อนบ้านน้อยเกินไป
+  \item \textbf{MAE (Mean Absolute Error)} -- ขนาดเฉลี่ยของความผิดพลาดของโมเดล หน่วยเป็นจุดเปอร์เซ็นต์ MAE เท่ากับ 10 หมายความว่าโดยทั่วไปโมเดลทายคลาดเคลื่อนประมาณ 10 จุดเปอร์เซ็นต์
+\end{itemize}
+
+\begin{warnbox}
+\begin{itemize}
+  \item \textbf{``command not found: python3''} -- ตรวจสอบว่าคุณอยู่ในโฟลเดอร์ \texttt{AI-training} และทำ Part 0 เสร็จแล้ว
+  \item \textbf{``No such file or directory: configs/cargo\_config.yaml''} -- คุณอาจกำลังรันคำสั่งจากโฟลเดอร์ที่ผิด ให้รัน \texttt{cd AI-training} ก่อน
+  \item \textbf{``manifest.csv has unlabeled/unsplit rows''} -- กลับไปที่ Part 1 บางแถวยังไม่มีค่า \texttt{fill\_level} หรือคุณยังไม่ได้รัน \texttt{scripts/make\_splits.py}
+  \item \textbf{คะแนนต่างจากของเพื่อนร่วมชั้นมากผิดปกติ ทั้งที่ใช้ค่าตั้งค่าเดียวกัน} -- ตรวจสอบว่าทั้งคู่ติดป้ายกำกับภาพในแนวทางเดียวกันหรือไม่ ความแตกต่างเล็ก ๆ ในการติดป้ายกำกับเป็นสาเหตุที่พบบ่อยที่สุด โดยเฉพาะเมื่อมีภาพทั้งหมดเพียง 42 ภาพ
+  \item \textbf{ทุกอย่างขึ้น ``command not found'' หลังปิด/เปิดเทอร์มินัลใหม่} -- รันบรรทัด \texttt{source .venv/bin/activate} จาก Part 0 ใหม่อีกครั้ง
+\end{itemize}
+\end{warnbox}
+
+\section*{ประเด็นให้ลองคิดต่อ (พูดคุยกับเพื่อนร่วมชั้น)}
+\begin{itemize}
+  \item เรามีภาพเพียง 42 ภาพจากรถบรรทุกคันเดียวในวันเดียว จะเกิดอะไรขึ้นได้บ้างหากนำโมเดลนี้ไปใช้กับรถบรรทุกคันอื่น หรือใช้ในเวลากลางคืน?
+  \item เหตุใดนักเรียนสองคนที่ติดป้ายกำกับภาพชุดเดียวกันด้วยมือตนเอง จึงอาจได้ค่า \texttt{fill\_level} ที่ต่างกันเล็กน้อย?
+  \item คุณต้องเก็บข้อมูลอะไรเพิ่มเติม เพื่อให้โมเดลนี้น่าเชื่อถือพอสำหรับการใช้งานจริง?
+\end{itemize}
+
+\end{document}

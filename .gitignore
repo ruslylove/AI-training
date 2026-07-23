@@ -68,3 +68,6 @@ node_modules/
 dist/
 .slidev/
 *.local
+slides-export.pdf
+slides-th-export.pdf
+
